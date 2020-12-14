@@ -4,15 +4,33 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography, Card } from '@material-ui/core';
 // Components
-import Avatar from 'components/Avatar';
+import Avatar from 'components/_common/Avatar';
 // Types
 import { Message as IMessage } from 'types';
 import { useRecoilValue } from 'recoil';
 import { PlayerState } from 'atoms/user';
 
 export interface MessageProps {
-    msg: IMessage;
-    isMe: boolean;
+    /**
+     * Name
+     */
+    name?: string;
+    /**
+     * Avatar index number
+     */
+    avatar?: number;
+    /**
+     * Background for avatar
+     */
+    color?: string;
+    /**
+     * Body
+     */
+    body: string;
+    /**
+     * Is the message from me?
+     */
+    isMine?: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -22,9 +40,9 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: '10px',
             marginRight: '10px',
             borderRadius: 10,
-            borderBottomRightRadius: props.isMe ? 0 : 10,
-            borderBottomLeftRadius: props.isMe ? 10 : 0,
-            background: props.isMe ? 'lightblue' : '#DDDDDD',
+            borderBottomRightRadius: props.isMine ? 0 : 10,
+            borderBottomLeftRadius: props.isMine ? 10 : 0,
+            background: props.isMine ? 'lightblue' : '#DDDDDD',
             alignContent: 'left',
             textAlign: 'left',
         }),
@@ -37,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
             marginLeft: 10,
             marginRight: 10,
             marginBottom: 10,
-            flexDirection: props.isMe ? 'row-reverse' : 'row',
+            flexDirection: props.isMine ? 'row-reverse' : 'row',
         }),
         body: {
             alignContent: 'left',
@@ -45,18 +63,24 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-const Message: React.FC<MessageProps> = ({ msg, isMe }) => {
-    const classes = useStyles({ msg, isMe });
-    const user = useRecoilValue(PlayerState(msg.user || ''));
+const Message: React.FC<MessageProps> = ({
+    name = '',
+    avatar = undefined,
+    color = '#000000',
+    body,
+    isMine = false
+}) => {
+    const classes = useStyles({name,avatar,color, body,isMine});
+    // const user = useRecoilValue(PlayerState(msg.user || ''));
 
     return (
         <div className={classes.root}>
-            <Avatar {...user} />
+            <Avatar name={name} avatar={avatar} />
             <Card className={classes.card}>
                 <Typography className={classes.title}>
-                    {user?.name || ''}
+                    {name }
                 </Typography>
-                <Typography className={classes.body}>{msg.body}</Typography>
+                <Typography className={classes.body}>{body}</Typography>
             </Card>
         </div>
     );
