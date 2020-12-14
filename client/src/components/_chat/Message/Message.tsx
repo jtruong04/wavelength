@@ -62,4 +62,6 @@ const Message: React.FC<MessageProps> = ({ msg, isMe }) => {
     );
 };
 
+export const MessageContainer = () => {};
+
 export default Message;

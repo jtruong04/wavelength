@@ -7,8 +7,6 @@ import { Tooltip } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 // Assets
 import avatars from 'assets/avatars';
-// Types
-import { TeamID } from 'enums';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,24 +36,39 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface AvatarProps {
-    name?: string;
-    team?: TeamID;
+    /**
+     * Name of user
+     */
+    name: string;
+    /**
+     * Background color
+     */
+    color?: string;
+    /**
+     * Index of avatar icons
+     */
     avatar?: number;
+    /**
+     * Show tooltip with user's name on hover
+     */
     tooltip?: boolean;
+    /**
+     * Increase size
+     */
     large?: boolean;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
     name,
-    team,
     avatar,
-    tooltip,
-    large,
+    color = '#808080',
+    tooltip = false,
+    large = false,
 }) => {
     const classes = useStyles();
-    if (!name && !team && avatar === undefined) {
-        return null;
-    }
+    // if (!name && !team && avatar === undefined) {
+    //     return null;
+    // }
     return (
         <Tooltip
             classes={{ tooltipPlacementBottom: classes.tooltipPlacementBottom }}
@@ -70,12 +83,7 @@ const Avatar: React.FC<AvatarProps> = ({
                 alt={name}
                 src={avatars[avatar!]}
                 style={{
-                    backgroundColor:
-                        team === TeamID.A
-                            ? '#ED623B'
-                            : team === TeamID.B
-                            ? '#E9A802'
-                            : '#1F5D8C',
+                    backgroundColor: color,
                 }}
             >
                 <PersonIcon className={classes.icon} />

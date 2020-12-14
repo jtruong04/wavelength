@@ -1,7 +1,7 @@
 // Libraries
 import React from 'react';
 // Components
-import Message from './Message';
+import Message from '../Message/Message';
 // Types
 import { Message as IMessage } from 'types';
 // Styling

@@ -6,7 +6,6 @@ import { Card, CardProps } from './Card';
 export default {
     title: 'Game Components/Card',
     component: Card,
-    decorators: [(Story) => <Story />],
     argTypes: {
         leftText: {
             table: {

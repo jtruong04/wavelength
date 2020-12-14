@@ -1,19 +1,12 @@
 // Libraries
 import React from 'react';
 import { useForm } from 'react-hook-form';
-// Recoil
-import { useRecoilValue } from 'recoil';
-import { UserIDState } from 'atoms/user';
 // Material
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
-// Services
-import socket from 'services/socket';
-// Types
-import { ChatEvent } from 'enums';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,22 +14,26 @@ const useStyles = makeStyles((theme: Theme) =>
             '& > *': {
                 width: '100%',
             },
+            backgroundColor: 'white',
+            opacity: '0.75',
         },
     })
 );
 
-interface Inputs {
-    message: string;
+export interface TextInputForm {
+    input: string;
 }
 
-export default function Input() {
-    const classes = useStyles();
-    const userid = useRecoilValue(UserIDState);
-    const { register, handleSubmit, reset } = useForm<Inputs>();
+export interface TextInputProps {
+    onSubmit: (data: TextInputForm) => void;
+}
 
-    const onSubmit = (data: Inputs) => {
-        if (data.message === '') return;
-        socket.emit(ChatEvent.MESSAGE, { userid, body: data.message });
+export const TextInput: React.FC<TextInputProps> = ({ onSubmit }) => {
+    const classes = useStyles();
+    const { register, handleSubmit, reset } = useForm<TextInputForm>();
+    const onClickSubmit = (data: TextInputForm) => {
+        if (data.input === '') return;
+        onSubmit(data);
         reset();
     };
 
@@ -44,18 +41,18 @@ export default function Input() {
         <form
             className={classes.root}
             noValidate
-            autoComplete='off'
-            onSubmit={handleSubmit(onSubmit)}
+            autoComplete="off"
+            onSubmit={handleSubmit(onClickSubmit)}
         >
             <TextField
-                id='message'
-                variant='outlined'
+                id="input"
+                variant="outlined"
                 inputRef={register}
-                name='message'
+                name="input"
                 InputProps={{
                     endAdornment: (
-                        <InputAdornment position='end'>
-                            <IconButton type='submit'>
+                        <InputAdornment position="end">
+                            <IconButton type="submit">
                                 <SendIcon />
                             </IconButton>
                         </InputAdornment>
@@ -64,4 +61,6 @@ export default function Input() {
             />
         </form>
     );
-}
+};
+
+export default TextInput;

@@ -9,14 +9,14 @@ import { UserIDState } from 'atoms/user';
 import { ChatState } from 'atoms/chat';
 import { RoomState } from 'atoms/room';
 // Components
-import MessageList from './MessageList';
-import Input from './Input';
+import MessageList from '../MessageList/MessageList';
+import Input from '../../_common/TextInput/TextInput';
 // Services
 import socket from 'services/socket';
 // Types
 import { UserID } from 'types';
 import { ChatEvent } from 'enums';
-
+import { TextInputForm } from 'components/_common/TextInput';
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
@@ -39,6 +39,9 @@ export default function ChatBox() {
     const [messages, setMessages] = useRecoilState(ChatState);
     const userid = useRecoilValue(UserIDState);
     const room = useRecoilValue(RoomState);
+    const onSubmit = (data: TextInputForm) => {
+        socket.emit(ChatEvent.MESSAGE, { userid, body: data.input });
+    };
 
     useEffect(() => {
         socket.on(ChatEvent.MESSAGE, (user: UserID, body: string) => {
@@ -51,9 +54,9 @@ export default function ChatBox() {
 
     return (
         <Card className={classes.root}>
-            <Typography align='right'>{room}</Typography>
+            <Typography align="right">{room}</Typography>
             <MessageList messages={messages} userID={userid} />
-            <Input />
+            <Input onSubmit={onSubmit} />
         </Card>
     );
 }
