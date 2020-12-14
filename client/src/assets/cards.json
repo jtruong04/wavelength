@@ -1,0 +1,23 @@
+{
+    "advanced": [
+        ["Not art", "Art"],
+        ["Illegal", "Prohibited"],
+        ["Casual event", "Formal event"],
+        ["Limited", "Infinite"],
+        ["Art", "Commerce"],
+        ["One hit wonder", "Pop icon"],
+        ["Legal", "Illegal"],
+        ["Bad mouthfeel", "Good mouthfeel"],
+        ["Bad advice", "Good advice"],
+        ["Tick", "Tock"]
+    ],
+    "basic": [
+        ["Smelly in a bad way", "Smelly in a good way"],
+        ["Boring", "Exciting"]
+    ],
+    "colors": [
+        ["#F6F1D6", "#79BEB9"],
+        ["#37825F", "#F34525"],
+        ["#E79D3C", "#FFC4C6"]
+    ]
+}

@@ -1,0 +1,32 @@
+.selection-area {
+    display: flex;
+    width: 80%;
+    height: 25vw;
+    text-align: center;
+    position: relative;
+    justify-content: center;
+    /* margin-top: 5%; */
+    border-radius: 10px;
+}
+
+.selection-team {
+    width: 40%;
+}
+
+.selection-no-team {
+    width: 20%;
+    background-color: #1f5d8c;
+}
+
+.selection-token {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    touch-action: none;
+}
+
+.token-label {
+    transform: translate(0, -50%);
+}
+h2 {
+    color: black;
+}
