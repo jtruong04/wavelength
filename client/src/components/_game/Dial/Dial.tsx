@@ -10,12 +10,12 @@ export interface DialProps {}
 
 const Dial: React.FC<DialProps> = () => {
     return (
-        <>
+        <div id='dial-container'>
             <Target />
             <Frame />
             <Knob />
             <Screen />
-        </>
+        </div>
     );
 };
 

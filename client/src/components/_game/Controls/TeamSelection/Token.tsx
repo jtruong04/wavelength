@@ -22,7 +22,7 @@ import './TeamSelection.css';
 // Components
 import Avatar from 'components/_common/Avatar';
 // Utils
-import { clamp } from 'utils/generic';
+// import { clamp } from 'utils/generic';
 
 export interface TokenProps {
     playerid: UserID;

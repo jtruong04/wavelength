@@ -26,37 +26,40 @@ const GamePage = () => {
     useJoinRoom();
 
     return (
-        <div className={classes.root}>
-            <Grid
-                container
-                spacing={2}
-                justify='space-evenly'
-                alignItems='center'
-            >
-                <Grid
-                    item
-                    container
-                    xs={12}
-                    md={7}
-                    direction='column'
-                    justify='center'
-                    alignItems='center'
+        <Grid
+            container
+            className={classes.root}
+            direction='row'
+            justify='center'
+            alignItems='stretch'
+        >
+            <Grid item xs={12} md={7}>
+                <div
+                    style={{
+                        display: 'flex',
+                        padding: '10%',
+                        margin: 'auto',
+                        // maxWidth: '600px',
+                        width: '60%',
+                    }}
                 >
                     <Game />
-                </Grid>
-                <Grid
-                    container
-                    item
-                    xs={12}
-                    md={5}
-                    direction='column'
-                    justify='center'
-                    alignItems='center'
+                </div>
+            </Grid>
+            <Grid item xs={12} md={5}>
+                <div
+                    style={{
+                        display: 'flex',
+                        padding: '10%',
+                        margin: 'auto',
+                        // maxWidth: '600px',
+                        width: '60%',
+                    }}
                 >
                     <ChatBox />
-                </Grid>
+                </div>
             </Grid>
-        </div>
+        </Grid>
     );
 };
 

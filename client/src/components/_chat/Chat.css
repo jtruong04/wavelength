@@ -4,7 +4,8 @@
     height: 100%;
     flex-direction: column-reverse;
     flex: 1 1 auto;
-    margin: 3% auto;
+    margin: auto auto;
+    padding: 0;
 }
 
 .chat-box {
