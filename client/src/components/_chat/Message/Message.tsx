@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         card: (props: MessageProps) => ({
             padding: 10,
-            marginLeft: '5%',
-            marginRight: '5%',
+            marginLeft: '0.5em',
+            marginRight: '0.5em',
             borderRadius: 10,
             borderBottomRightRadius: props.isMine ? 0 : 10,
             borderBottomLeftRadius: props.isMine ? 10 : 0,

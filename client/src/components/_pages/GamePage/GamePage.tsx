@@ -49,11 +49,11 @@ const GamePage = () => {
             <Grid item xs={12} md={5}>
                 <div
                     style={{
-                        display: 'flex',
-                        padding: '10%',
+                        // display: 'flex',
+                        padding: '5%',
                         margin: 'auto',
                         // maxWidth: '600px',
-                        width: '60%',
+                        width: '80%',
                     }}
                 >
                     <ChatBox />
