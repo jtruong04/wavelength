@@ -6,7 +6,15 @@ export const parameters = {
 };
 export const decorators = [
     (Story) => (
-        <div style={{ margin: '1em', backgroundColor: '#F0F0F0' }}>
+        <div
+            style={{
+                margin: '3em',
+                backgroundColor: '#F0F0F0',
+                height: '600px',
+                width: '600px',
+                position: 'relative',
+            }}
+        >
             <RecoilRoot>
                 <Story />
             </RecoilRoot>

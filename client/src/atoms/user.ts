@@ -84,6 +84,20 @@ export const PlayerTeamStates = selectorFamily<TeamID, UserID>({
     },
 });
 
+export const MyTeamState = selector({
+    key: 'my team',
+    get: ({ get }) => {
+        const userid = get(UserIDState);
+        const myTeam = get(PlayerTeamStates(userid));
+        if (myTeam === TeamID.NONE) {
+            return {
+                color: '#1f5d8c',
+            };
+        }
+        return get(TeamState(myTeam));
+    },
+});
+
 export const Roster = selectorFamily<UserID[], TeamID>({
     key: 'roster',
     get: (parameter) => ({ get }) => {

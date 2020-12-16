@@ -18,7 +18,7 @@ export enum GameEvents {
     SET_TEAM_A_TURN = 'set A turn',
     SET_TEAM_B_TURN = 'set B turn',
     TURN_DIAL = 'turn dial',
-    TOGGLE_SHIELD = 'toggle shield',
+    TOGGLE_SCREEN = 'toggle screen',
     SET_TARGET = 'set target',
     DRAG_TOKEN = 'drag token',
     SET_STATE = 'set state',

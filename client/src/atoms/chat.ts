@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 
-import { Message } from 'types';
+import { IMessage } from 'types';
 
-export const ChatState = atom<Message[]>({
+export const ChatState = atom<IMessage[]>({
     key: 'chat',
     default: [],
 });

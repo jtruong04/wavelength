@@ -1,0 +1,9 @@
+.frame {
+    height: 0;
+    position: absolute;
+    width: 100%;
+    padding-top: 50%;
+    border-top-right-radius: 50% 100%;
+    border-top-left-radius: 50% 100%;
+    box-shadow: 0 0 0 50px #11334d;
+}

@@ -16,3 +16,11 @@ export interface User {
 }
 // export type PlayerSet = Set<UserID>;
 export type RoomID = string;
+
+export interface IMessage {
+    id: UserID;
+    name?: string;
+    avatar?: number;
+    color?: string;
+    body: string;
+}

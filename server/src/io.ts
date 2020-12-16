@@ -3,7 +3,7 @@ import wildcard from 'socketio-wildcard';
 import { Server, Socket } from 'socket.io';
 import { roomManager } from './services';
 
-import { RoomID, User, UserID } from './types';
+import { IMessage, RoomID, User, UserID } from './types';
 import { SocketEvent, ChatEvent, GameEvents } from './enums';
 
 export default (server: Express.Application) => {
@@ -65,16 +65,12 @@ export default (server: Express.Application) => {
             );
         });
         // Chat Event
-        socket.on(
-            ChatEvent.MESSAGE,
-            (payload: { userid: UserID; body: string }) => {
-                io.in(roomManager.getPlayersRoom(socket.id)).emit(
-                    ChatEvent.MESSAGE,
-                    payload.userid,
-                    payload.body
-                );
-            }
-        );
+        socket.on(ChatEvent.MESSAGE, (payload: IMessage) => {
+            io.in(roomManager.getPlayersRoom(socket.id)).emit(
+                ChatEvent.MESSAGE,
+                payload
+            );
+        });
 
         // Game Events
         Object.values(GameEvents).forEach((event) => {

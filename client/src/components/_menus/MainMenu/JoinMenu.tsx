@@ -11,7 +11,7 @@ import { Button, TextField, Grid, IconButton } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 // Components
 import AvatarMenu from './AvatarMenu';
-import Avatar from '../../Avatar';
+import Avatar from 'components/_common/Avatar';
 // Styling
 import './Menus.css';
 
@@ -99,7 +99,12 @@ const JoinMenu = () => {
                             onClick={handleClick}
                             className={classes.icon}
                         >
-                            <Avatar avatar={avatar} large />
+                            <Avatar
+                                name={''}
+                                avatar={avatar}
+                                large
+                                tooltip={false}
+                            />
                         </IconButton>
                         <AvatarMenu
                             anchorEl={anchorEl}

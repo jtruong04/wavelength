@@ -10,7 +10,7 @@ import { UserIDState, Me } from 'atoms/user';
 import { RoomState } from 'atoms/room';
 // Components
 import AvatarMenu from './AvatarMenu';
-import Avatar from '../../Avatar';
+import Avatar from 'components/_common/Avatar';
 // Services
 import api from 'services/api';
 // Styling
@@ -104,7 +104,12 @@ const HostMenu = () => {
                             onClick={handleClick}
                             className={classes.icon}
                         >
-                            <Avatar avatar={avatar} large />
+                            <Avatar
+                                name={''}
+                                avatar={avatar}
+                                large
+                                tooltip={false}
+                            />
                         </IconButton>
                         <AvatarMenu
                             anchorEl={anchorEl}

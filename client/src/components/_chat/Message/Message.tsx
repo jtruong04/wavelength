@@ -5,10 +5,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography, Card } from '@material-ui/core';
 // Components
 import Avatar from 'components/_common/Avatar';
-// Types
-import { Message as IMessage } from 'types';
-import { useRecoilValue } from 'recoil';
-import { PlayerState } from 'atoms/user';
 
 export interface MessageProps {
     /**
@@ -37,8 +33,8 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         card: (props: MessageProps) => ({
             padding: 10,
-            marginLeft: '10px',
-            marginRight: '10px',
+            marginLeft: '5%',
+            marginRight: '5%',
             borderRadius: 10,
             borderBottomRightRadius: props.isMine ? 0 : 10,
             borderBottomLeftRadius: props.isMine ? 10 : 0,
@@ -66,26 +62,23 @@ const useStyles = makeStyles((theme: Theme) =>
 const Message: React.FC<MessageProps> = ({
     name = '',
     avatar = undefined,
-    color = '#000000',
+    color = '#808080',
     body,
-    isMine = false
+    isMine = false,
 }) => {
-    const classes = useStyles({name,avatar,color, body,isMine});
-    // const user = useRecoilValue(PlayerState(msg.user || ''));
+    const classes = useStyles({ name, avatar, color, body, isMine });
 
     return (
         <div className={classes.root}>
-            <Avatar name={name} avatar={avatar} />
+            <Avatar name={name} avatar={avatar} color={color} />
             <Card className={classes.card}>
-                <Typography className={classes.title}>
-                    {name }
-                </Typography>
+                <Typography className={classes.title}>{name}</Typography>
                 <Typography className={classes.body}>{body}</Typography>
             </Card>
         </div>
     );
 };
 
-export const MessageContainer = () => {};
+// export const MessageContainer = () => {};
 
 export default Message;

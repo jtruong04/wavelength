@@ -10,9 +10,9 @@ export const DialState = atom<number>({
     key: 'dial',
     default: 90,
 });
-export const ShieldState = atom<boolean>({
-    key: 'shield',
-    default: true,
+export const ScreenState = atom<number>({
+    key: 'screen',
+    default: 0,
 });
 export const PromptsState = atom<{
     text: [string, string];

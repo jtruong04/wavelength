@@ -4,7 +4,7 @@ import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { Grid } from '@material-ui/core';
 // Components
-import ChatBox from 'components/_chat/ChatBox/ChatBox';
+import ChatBox from 'components/_chat/ChatBox';
 import Game from 'components/_game/Game';
 // Hooks
 import useJoinRoom from 'hooks/useJoinRoom';

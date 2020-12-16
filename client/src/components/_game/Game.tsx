@@ -10,13 +10,13 @@ import { Roster, UserIDState } from 'atoms/user';
 // import useStateMachine from 'hooks/useStateMachine';
 import React from 'react';
 import Dial from './Dial/Dial';
-import ClueInput from './ClueInput';
-import TeamSelection from './TeamSelection/TeamSelection';
+import ClueInput from './Controls/ClueInput';
+import TeamSelection from './Controls/TeamSelection/TeamSelection';
 // import { useSocketRecoilFamily } from 'hooks/useSocketRecoilState';
 import { State } from 'enums';
-import ActiveDeliberation from './Deliberation/ActiveDeliberation';
-import StandbyDeliberation from './Deliberation/StandbyDeliberation';
-import Reveal from './Reveal';
+import ActiveDeliberation from './Controls/Deliberation/ActiveDeliberation';
+import StandbyDeliberation from './Controls/Deliberation/StandbyDeliberation';
+import Reveal from './Controls/Reveal';
 import Card from './Card/Card';
 import { ClueState } from 'atoms/ui';
 

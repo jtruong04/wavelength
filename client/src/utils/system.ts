@@ -1,6 +1,8 @@
 import { Point } from '../types';
 
-export function getMousePosition(event: MouseEvent | TouchEvent): Point {
+export function getMousePosition(
+    event: MouseEvent | React.MouseEvent | TouchEvent | React.TouchEvent
+): Point {
     let mousePosition: Point;
     if ('touches' in event) {
         mousePosition = {

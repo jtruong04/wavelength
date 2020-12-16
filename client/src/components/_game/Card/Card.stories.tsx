@@ -1,7 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 import { Card, CardProps } from './Card';
-// import { RecoilRoot } from 'recoil';
 
 export default {
     title: 'Game Components/Card',

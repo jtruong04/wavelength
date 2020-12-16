@@ -62,8 +62,8 @@ export const ActiveTeamRoster = selector({
     },
 });
 
-export const IsShieldOpen = selector({
-    key: 'shield up',
+export const IsScreenOpen = selector({
+    key: 'screen up',
     get: ({ get }) => {
         const userid = get(UserIDState);
         const clueGiver = get(ClueGiver);

@@ -24,7 +24,10 @@ export interface Team {
     score: number;
 }
 
-export interface Message {
-    user?: UserID;
+export interface IMessage {
+    id: UserID;
+    name?: string;
+    avatar?: number;
+    color?: string;
     body: string;
 }

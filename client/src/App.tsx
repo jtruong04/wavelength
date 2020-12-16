@@ -3,7 +3,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import ReactLoading from 'react-loading';
 // Components
-import { Background } from 'components/Background';
+import { Background } from 'components/_ui/Background';
 import { Homepage } from 'components/_pages/Homepage';
 import { GamePage } from 'components/_pages/GamePage';
 // Hooks

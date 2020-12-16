@@ -1,0 +1,28 @@
+.knob {
+    background-color: rgb(255, 19, 34);
+    height: 0;
+    position: absolute;
+    left: 50%;
+    top: 100%;
+}
+.knob-control {
+    /* height: 8vw; */
+    width: 20%;
+    padding-top: 20%;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 5px 5px 2px #00000080;
+}
+
+.knob-hand {
+    width: 1%;
+    padding-top: 40%;
+    border-top-left-radius: 50% 100%;
+    border-top-right-radius: 50% 100%;
+    transform-origin: bottom center;
+}
+
+.knob-hand-shadow {
+    background-color: #00000080;
+    box-shadow: 0 0 5px 1px #00000080;
+}

@@ -1,19 +1,26 @@
 import React from 'react';
-import './Dial.css';
+import './Target.css';
+import '../Dial.css';
+import { useRecoilValue } from 'recoil';
+import { TargetState } from 'atoms/ui';
+import { GameOptions } from 'atoms/stateMachine';
 
 export interface TargetProps {
+    /**
+     * Marks the bullseye
+     */
     center: number;
+    /**
+     * The width of the bullseye in degrees
+     */
     width: number;
 }
 
-const Target: React.FC<TargetProps> = ({ center, width }) => {
+// TODO: FIX - Firefox does not support conic-gradient with hard transitions
+
+export const Target: React.FC<TargetProps> = ({ center, width }) => {
     return (
-        <div
-            className='dial'
-            style={{
-                overflow: 'hidden',
-            }}
-        >
+        <div className='container-clip' id='target'>
             <div
                 className='target'
                 style={{
@@ -38,9 +45,15 @@ const Target: React.FC<TargetProps> = ({ center, width }) => {
                 )`,
                     transform: `rotate(${center - 90}deg)`,
                 }}
-            ></div>
+            />
         </div>
     );
 };
 
-export default Target;
+const TargetContainer = () => {
+    const center = useRecoilValue(TargetState);
+    const options = useRecoilValue(GameOptions);
+    return <Target center={center} width={options.targetWidth} />;
+};
+
+export default TargetContainer;

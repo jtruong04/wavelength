@@ -1,22 +1,23 @@
 // Libraries
 import React from 'react';
+// Recoil
+import { useRecoilValue } from 'recoil';
+import { ChatState } from 'atoms/chat';
 // Components
 import Message from '../Message/Message';
 // Types
-import { Message as IMessage } from 'types';
+import { MessageProps } from '../Message';
 // Styling
-import './Chat.css';
+import '../Chat.css';
+import { UserIDState } from 'atoms/user';
 
 export type MessageListProps = {
-    messages: IMessage[];
-    userID: string;
+    messages: MessageProps[];
 };
 
-export default function MessageList({ messages, userID }: MessageListProps) {
+export const MessageList = ({ messages }: MessageListProps) => {
     const renderMessages = () => {
-        return messages.map((msg, idx) => (
-            <Message msg={msg} isMe={msg.user === userID} key={idx} />
-        ));
+        return messages.map((msg, idx) => <Message {...msg}  key={idx} />);
     };
 
     return (
@@ -24,4 +25,17 @@ export default function MessageList({ messages, userID }: MessageListProps) {
             <div>{renderMessages()}</div>
         </div>
     );
-}
+};
+
+const MessageListContainer = () => {
+    const messages = useRecoilValue(ChatState);
+    const userid = useRecoilValue(UserIDState);
+
+    const processedMessages = messages.map((msg) => ({
+        ...msg,
+        isMine: msg.id === userid,
+    }));
+    return <MessageList messages={processedMessages} />;
+};
+
+export default MessageListContainer;

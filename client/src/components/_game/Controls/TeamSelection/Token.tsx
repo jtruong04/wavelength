@@ -2,7 +2,12 @@
 import React, { RefObject } from 'react';
 // Recoil
 import { useRecoilValue } from 'recoil';
-import { TokenStates, PlayerTeamStates, PlayerState } from 'atoms/user';
+import {
+    TokenStates,
+    PlayerTeamStates,
+    PlayerState,
+    MyTeamState,
+} from 'atoms/user';
 // Hooks
 import useDrag from 'hooks/useDrag';
 import {
@@ -15,7 +20,7 @@ import { UserID } from 'types';
 // Styling
 import './TeamSelection.css';
 // Components
-import Avatar from 'components/Avatar';
+import Avatar from 'components/_common/Avatar';
 // Utils
 import { clamp } from 'utils/generic';
 
@@ -31,31 +36,21 @@ const Token: React.FC<TokenProps> = ({ playerid, containerRef, draggable }) => {
         playerid,
         GameEvents.DRAG_TOKEN
     );
-    // const [tokenPosition, setPosition] = useRecoilState(TokenStates(playerid));
     const setTeam = useSetSocketRecoilFamily(
         PlayerTeamStates,
         playerid,
         GameEvents.CHANGE_TEAM
     );
-    // const setTeam = useSetRecoilState(PlayerTeamStates(playerid));
     const player = useRecoilValue(PlayerState(playerid));
+    const myTeam = useRecoilValue(MyTeamState);
 
     const handleDrag = useDrag(
-        containerRef,
         (newValue) => setPosition(playerid, newValue),
         (releasePoint) => {
             const box = containerRef.current!.getBoundingClientRect();
             const newPosition = {
-                x: clamp(
-                    ((releasePoint.x - box.left) / box.width) * 100,
-                    10,
-                    90
-                ),
-                y: clamp(
-                    ((releasePoint.y - box.top) / box.height) * 100,
-                    10,
-                    90
-                ),
+                x: ((releasePoint.x - box.left) / box.width) * 100,
+                y: ((releasePoint.y - box.top) / box.height) * 100,
             };
             const newTeam =
                 newPosition.x < 40
@@ -77,13 +72,20 @@ const Token: React.FC<TokenProps> = ({ playerid, containerRef, draggable }) => {
             }}
         >
             <div
-                onMouseDown={draggable ? handleDrag : undefined}
-                onTouchStart={draggable ? handleDrag : undefined}
+                onMouseDown={
+                    draggable ? (e) => handleDrag(e, containerRef) : undefined
+                }
+                onTouchStart={
+                    draggable ? (e) => handleDrag(e, containerRef) : undefined
+                }
             >
-                <Avatar {...player} tooltip large />
+                <Avatar
+                    {...player}
+                    color={myTeam.color || 'gray'}
+                    tooltip
+                    large
+                />
             </div>
-            {/* <div className='token-label'>{playerid || ''}</div> */}
-            {/* <div className='token-label'>{player.name || ''}</div> */}
         </div>
     );
 };
