@@ -63,7 +63,6 @@ const HostMenu = () => {
     const onSubmit = async (data: { name: string }) => {
         if (data.name === '') return;
         const newRoom = await api.getRoomID();
-        console.log(data, newRoom);
         setMe({ name: data.name, avatar: avatar, id: userid, host: true });
         setRoom(newRoom);
     };
