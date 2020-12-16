@@ -23,7 +23,8 @@ export const Screen: React.FC<ScreenProps> = ({ angle, onDrag }) => {
     const handleDrag = (event: React.MouseEvent | React.TouchEvent) => {
         event.preventDefault();
         setNoTransitions(true);
-        const turnOnTransitions = () => {
+        const turnOnTransitions = (event: MouseEvent | TouchEvent) => {
+            event.preventDefault();
             setNoTransitions(false);
             document.removeEventListener('mouseup', turnOnTransitions);
             document.removeEventListener('touchend', turnOnTransitions);
@@ -76,7 +77,6 @@ export const ScreenContainer = () => {
         pivotPoint: Point
     ) => {
         const newAngle = computeAngle(releasePoint, pivotPoint);
-        console.log('click', newAngle);
         setAngle(newAngle < 90 || newAngle > 270 ? 180 : 0);
     };
 
@@ -85,7 +85,6 @@ export const ScreenContainer = () => {
         _initialPoint: Point,
         pivotPoint: Point
     ) => {
-        console.log('drag');
         const newAngle = computeAngle(pivotPoint, releasePoint) - 180;
         setAngle(newAngle > 90 || newAngle < -90 ? 180 : 0);
     };
