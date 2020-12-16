@@ -49,6 +49,7 @@ export const ChatBox = () => {
         socket.emit(ChatEvent.MESSAGE, {
             ...me,
             color: myTeam.color,
+            body: data.input,
         });
     };
 
