@@ -26,8 +26,11 @@ export const Screen: React.FC<ScreenProps> = ({ angle, onDrag }) => {
         const turnOnTransitions = () => {
             setNoTransitions(false);
             document.removeEventListener('mouseup', turnOnTransitions);
+            document.removeEventListener('touchend', turnOnTransitions);
         };
         document.addEventListener('mouseup', turnOnTransitions);
+        document.addEventListener('touchend', turnOnTransitions);
+
         onDrag(event, screenRef);
     };
 
@@ -55,6 +58,7 @@ export const Screen: React.FC<ScreenProps> = ({ angle, onDrag }) => {
                     }deg) translate(0, 185%)`,
                 }}
                 onMouseDown={handleDrag}
+                onTouchStart={handleDrag}
             />
             <div id='screen-pivot' ref={screenRef} />
         </>
