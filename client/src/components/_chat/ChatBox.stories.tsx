@@ -34,13 +34,7 @@ const MockDataInjector = () => {
 export default {
     title: 'Chat Components/ChatBox',
     component: ChatBox,
-    argTypes: {
-        messages: {
-            table: {
-                disable: true,
-            },
-        },
-    },
+    argTypes: {},
     decorators: [
         (Story) => (
             <>
@@ -54,4 +48,4 @@ export default {
 const Template: Story<ChatBoxProps> = (args) => <ChatBox {...args} />;
 
 export const Default = Template.bind({});
-Default.args = { messages };
+Default.args = {};

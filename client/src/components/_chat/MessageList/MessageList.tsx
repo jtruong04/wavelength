@@ -12,12 +12,15 @@ import '../Chat.css';
 import { UserIDState } from 'atoms/user';
 
 export type MessageListProps = {
+    /**
+     * List of messages
+     */
     messages: MessageProps[];
 };
 
 export const MessageList = ({ messages }: MessageListProps) => {
     const renderMessages = () => {
-        return messages.map((msg, idx) => <Message {...msg}  key={idx} />);
+        return messages.map((msg, idx) => <Message {...msg} key={idx} />);
     };
 
     return (

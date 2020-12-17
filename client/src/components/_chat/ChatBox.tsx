@@ -18,28 +18,9 @@ import { IMessage } from 'types';
 import { ChatEvent } from 'enums';
 import { TextInputForm } from 'components/_common/TextInput';
 
-// const useStyles = makeStyles((theme: Theme) =>
-//     createStyles({
-//         root: {
-//             display: 'flex',
-//             flexDirection: 'column',
-//             justifyContent: 'flex-end',
-//             alignContent: 'stretch',
-//             alignItems: 'stretch',
-//             padding: '5%',
-//             maxWidth: '600px',
-//             width: '100%',
-//             height: '100%',
-//             backgroundColor: '#FFFFFFEE',
-//         },
-//     })
-// );
-
 export interface ChatBoxProps {}
 
 export const ChatBox = () => {
-    // const classes = useStyles();
-
     const setMessages = useSetRecoilState(ChatState);
     const me = useRecoilValue(Me);
     const myTeam = useRecoilValue(MyTeamState);
@@ -63,7 +44,6 @@ export const ChatBox = () => {
     }, [setMessages]);
 
     return (
-        // <Card className={classes.root}>
         <Card className='chat-box'>
             <Typography align='right'>Room Code: {room}</Typography>
             <MessageList />

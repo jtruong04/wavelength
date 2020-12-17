@@ -79,6 +79,4 @@ const Message: React.FC<MessageProps> = ({
     );
 };
 
-// export const MessageContainer = () => {};
-
 export default Message;
