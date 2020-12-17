@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 import Avatar, { AvatarProps } from './Avatar';
+import { Point } from 'types';
 // import { RecoilRoot } from 'recoil';
 
 export default {
@@ -36,4 +37,32 @@ export const Tooltip = Template.bind({});
 Tooltip.args = {
     ...Default.args,
     tooltip: true,
+};
+
+const AvatarContainer: React.FC<AvatarProps> = ({ ...props }) => {
+    const [position, setPosition] = useState<Point>({ x: 50, y: 50 });
+
+    return (
+        <div
+            style={{
+                width: '100%',
+                height: '100%',
+            }}
+        >
+            <Avatar
+                {...props}
+                position={position}
+                draggable={{
+                    setPosition,
+                }}
+            />
+        </div>
+    );
+};
+
+export const Draggable: Story<AvatarProps> = (args) => (
+    <AvatarContainer {...args} />
+);
+Draggable.args = {
+    ...Default.args,
 };

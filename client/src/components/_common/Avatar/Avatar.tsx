@@ -7,6 +7,8 @@ import { Tooltip } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 // Assets
 import avatars from 'assets/avatars';
+import { Point } from 'types';
+import useDrag from 'hooks/useDrag';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,6 +58,14 @@ export interface AvatarProps {
      * Increase size
      */
     large?: boolean;
+    /**
+     * Object contain all the stuff needed to make it draggable
+     */
+    position?: Point;
+    draggable?: {
+        setPosition: (newState: Point) => void;
+        onDragRelease?: (releasePoint: Point, initialPoint: Point) => any;
+    };
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -64,31 +74,59 @@ const Avatar: React.FC<AvatarProps> = ({
     color = '#808080',
     tooltip = false,
     large = false,
+    position = {
+        x: 0,
+        y: 0,
+    },
+    draggable,
 }) => {
     const classes = useStyles();
-    // if (!name && !team && avatar === undefined) {
-    //     return null;
-    // }
+    const handleDrag = useDrag(
+        draggable?.setPosition || ((_newState) => {}),
+        draggable?.onDragRelease
+    );
     return (
-        <Tooltip
-            classes={{ tooltipPlacementBottom: classes.tooltipPlacementBottom }}
-            title={name || ' '}
-            disableFocusListener={!tooltip}
-            disableHoverListener={!tooltip}
-            disableTouchListener={!tooltip}
-            arrow
+        <div
+            onMouseDown={draggable ? handleDrag : undefined}
+            style={
+                draggable || position
+                    ? {
+                          left: `${position.x}%`,
+                          top: `${position.y}%`,
+                          position: 'absolute',
+                          transform: 'translate(-50%,-50%)',
+                          touchAction: 'none',
+                      }
+                    : {
+                          //   left: `${position.x}%`,
+                          //   top: `${position.y}%`,
+                          //   position: 'absolute',
+                          //   transform: 'translate(-50%,-50%)',
+                      }
+            }
         >
-            <MuiAvatar
-                className={large ? classes.large : classes.small}
-                alt={name}
-                src={avatars[avatar!]}
-                style={{
-                    backgroundColor: color,
+            <Tooltip
+                classes={{
+                    tooltipPlacementBottom: classes.tooltipPlacementBottom,
                 }}
+                title={name || ' '}
+                disableFocusListener={!tooltip}
+                disableHoverListener={!tooltip}
+                disableTouchListener={!tooltip}
+                arrow
             >
-                <PersonIcon className={classes.icon} />
-            </MuiAvatar>
-        </Tooltip>
+                <MuiAvatar
+                    className={large ? classes.large : classes.small}
+                    alt={name}
+                    src={avatars[avatar!]}
+                    style={{
+                        backgroundColor: color,
+                    }}
+                >
+                    <PersonIcon className={classes.icon} />
+                </MuiAvatar>
+            </Tooltip>
+        </div>
     );
 };
 

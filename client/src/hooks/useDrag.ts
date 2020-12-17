@@ -7,18 +7,20 @@ function useDrag(
     onDragRelease?: (releasePoint: Point, initialPoint: Point) => any,
     onClick?: (releasePoint: Point, initialPoint: Point) => any
 ) {
-    const dragStart = (
-        event: React.MouseEvent | React.TouchEvent,
-        boundingBoxRef: React.RefObject<HTMLDivElement>
-    ) => {
+    const dragStart = (event: React.MouseEvent | React.TouchEvent) => {
         event.preventDefault();
         const self = event.currentTarget.getBoundingClientRect();
-        // console.log(self);
-        const box = boundingBoxRef.current!.getBoundingClientRect();
+        const box = event.currentTarget.parentElement?.getBoundingClientRect() || {
+            left: 0,
+            width: 0,
+            top: 0,
+            height: 0,
+        };
+        // const box = boundingBoxRef.current!.getBoundingClientRect();
         const initPosition = getMousePosition(event);
 
-        const moveHandler = (event: MouseEvent | TouchEvent) => {
-            const mousePosition = getMousePosition(event);
+        const moveHandler = (moveEvent: MouseEvent | TouchEvent) => {
+            const mousePosition = getMousePosition(moveEvent);
             const newPosition = {
                 x: clamp(
                     ((mousePosition.x - box.left) / box.width) * 100,
@@ -36,12 +38,12 @@ function useDrag(
         document.addEventListener('mousemove', moveHandler);
         document.addEventListener('touchmove', moveHandler);
 
-        const endDrag = (event: TouchEvent | MouseEvent) => {
+        const endDrag = (mouseUpEvent: TouchEvent | MouseEvent) => {
             document.removeEventListener('mousemove', moveHandler);
             document.removeEventListener('touchmove', moveHandler);
             document.removeEventListener('mouseup', endDrag);
             document.removeEventListener('touchend', endDrag);
-            const mousePosition = getMousePosition(event);
+            const mousePosition = getMousePosition(mouseUpEvent);
             if (onClick && computeDistance(initPosition, mousePosition) < 6) {
                 onClick(mousePosition, initPosition);
                 return;

@@ -5,3 +5,47 @@ h1 {
     font-size: 5rem;
     text-shadow: 3px 3px rgb(6, 21, 39);
 }
+
+.grid-container {
+    margin: 0 5%;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 0% 0%;
+    grid-template-areas:
+        'Dial Dial Dial Dial Score Score'
+        'Dial Dial Dial Dial Chat Chat'
+        'Dial Dial Dial Dial Chat Chat'
+        'Control Control Control Control Chat Chat'
+        'Control Control Control Control Chat Chat';
+}
+
+.Dial {
+    grid-area: Dial;
+    z-index: 2;
+    padding: 10%;
+}
+
+.Chat {
+    grid-area: Chat;
+    padding: 5%;
+    z-index: 3;
+}
+
+.Score {
+    grid-area: Score;
+    z-index: 1;
+}
+
+.Control {
+    grid-area: Control;
+    padding: 0 5% 5% 5%;
+    z-index: 4;
+}
+/* 
+.grid-cell {
+    padding: '5%';
+    margin: 'auto';
+    max-width: '600px';
+    width: '80%';
+} */

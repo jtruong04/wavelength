@@ -32,11 +32,28 @@ export const PlayerState = atomFamily<User, UserID>({
 
 export const TeamState = atomFamily<Team, TeamID>({
     key: 'team',
-    default: (param) => ({
-        name: teamDefaults.names[0][param === TeamID.A ? 0 : 1],
-        color: teamDefaults.colors[param === TeamID.A ? 0 : 1],
-        score: 0,
-    }),
+    default: (param) => {
+        switch (param) {
+            case TeamID.A:
+                return {
+                    name: teamDefaults.names[0][0],
+                    color: teamDefaults.colors[0],
+                    score: 0,
+                };
+            case TeamID.B:
+                return {
+                    name: teamDefaults.names[0][1],
+                    color: teamDefaults.colors[1],
+                    score: 0,
+                };
+            default:
+                return {
+                    name: '',
+                    color: '#808080',
+                    score: 0,
+                };
+        }
+    },
 });
 
 // Derived States

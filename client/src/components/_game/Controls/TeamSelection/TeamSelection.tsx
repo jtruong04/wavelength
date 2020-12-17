@@ -4,61 +4,52 @@ import React, { useRef } from 'react';
 import { useRecoilValue } from 'recoil';
 import { PlayerListState, TeamState, UserIDState } from 'atoms/user';
 // Components
-import Token from './Token';
+// import Token from './Token/Token';
 // Styling
 import './TeamSelection.css';
 import { TeamID } from 'enums';
+import Table from './Table/Table';
+import Token from './Token';
 
 export interface TeamSelectionProps {}
 
 const TeamSelection: React.FC<TeamSelectionProps> = () => {
+    const containerRef = useRef(null);
     const players = useRecoilValue(PlayerListState);
     const userid = useRecoilValue(UserIDState);
-    const boxRef = useRef<HTMLDivElement>(null);
 
     const teamA = useRecoilValue(TeamState(TeamID.A));
     const teamB = useRecoilValue(TeamState(TeamID.B));
 
-    // React.useEffect(() => {
-    //     console.log(players);
-    // }, [players]);
-
     const renderTokens = () =>
-        players.map((player) => {
-            return (
-                <Token
-                    key={player}
-                    playerid={player}
-                    containerRef={boxRef}
-                    draggable={player === userid}
-                />
-            );
-        });
+        players.map((player) => (
+            <Token
+                key={player}
+                id={player}
+                draggable={player === userid}
+                containerRef={containerRef}
+            />
+        ));
 
     return (
-        <>
-            <h2 className='text'>Close the handle to start.</h2>
-            <div ref={boxRef} className='selection-area'>
-                <div
-                    className='selection-team'
-                    style={{
-                        backgroundColor: teamA.color || '#ED623B',
-                    }}
-                >
-                    Team {teamA.name}
-                </div>
-                <div className='selection-no-team'></div>
-                <div
-                    className='selection-team'
-                    style={{
-                        backgroundColor: teamB.color || '#E9A802',
-                    }}
-                >
-                    Team {teamB.name}
-                </div>
+        <div
+            ref={containerRef}
+            id='container'
+            style={{
+                position: 'relative',
+                height: '100%',
+                width: '100%',
+            }}
+        >
+            <Table
+                leftLabel={teamA.name}
+                rightLabel={teamB.name}
+                leftColor={teamA.color}
+                rightColor={teamB.color}
+            >
                 {renderTokens()}
-            </div>
-        </>
+            </Table>
+        </div>
     );
 };
 

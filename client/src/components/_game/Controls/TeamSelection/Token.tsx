@@ -1,92 +1,71 @@
-// Libraries
-import React, { RefObject } from 'react';
-// Recoil
-import { useRecoilValue } from 'recoil';
 import {
-    TokenStates,
-    PlayerTeamStates,
     PlayerState,
-    MyTeamState,
+    PlayerTeamStates,
+    TeamState,
+    TokenStates,
 } from 'atoms/user';
-// Hooks
-import useDrag from 'hooks/useDrag';
-import {
-    useSocketRecoilFamily,
-    useSetSocketRecoilFamily,
-} from 'hooks/useSocketRecoilState';
-// Types
 import { GameEvents, TeamID } from 'enums';
-import { UserID } from 'types';
-// Styling
-import './TeamSelection.css';
-// Components
+import React, { RefObject } from 'react';
+import { useRecoilValue } from 'recoil';
+import { Point, UserID } from 'types';
 import Avatar from 'components/_common/Avatar';
-// Utils
-// import { clamp } from 'utils/generic';
+import {
+    useSetSocketRecoilFamily,
+    useSocketRecoilFamily,
+} from 'hooks/useSocketRecoilState';
 
 export interface TokenProps {
-    playerid: UserID;
-    containerRef: RefObject<HTMLDivElement>;
+    id: UserID;
     draggable?: boolean;
+    containerRef?: RefObject<HTMLElement>;
 }
 
-const Token: React.FC<TokenProps> = ({ playerid, containerRef, draggable }) => {
-    const [tokenPosition, setPosition] = useSocketRecoilFamily(
+const Token: React.FC<TokenProps> = ({ id, draggable, containerRef }) => {
+    const player = useRecoilValue(PlayerState(id));
+    const team = useRecoilValue(TeamState(player.team || TeamID.NONE));
+    const [position, setPosition] = useSocketRecoilFamily(
         TokenStates,
-        playerid,
+        player.id,
         GameEvents.DRAG_TOKEN
     );
     const setTeam = useSetSocketRecoilFamily(
         PlayerTeamStates,
-        playerid,
+        player.id,
         GameEvents.CHANGE_TEAM
     );
-    const player = useRecoilValue(PlayerState(playerid));
-    const myTeam = useRecoilValue(MyTeamState);
 
-    const handleDrag = useDrag(
-        (newValue) => setPosition(playerid, newValue),
-        (releasePoint) => {
-            const box = containerRef.current!.getBoundingClientRect();
-            const newPosition = {
-                x: ((releasePoint.x - box.left) / box.width) * 100,
-                y: ((releasePoint.y - box.top) / box.height) * 100,
-            };
-            const newTeam =
-                newPosition.x < 40
-                    ? TeamID.A
-                    : newPosition.x > 60
-                    ? TeamID.B
-                    : TeamID.NONE;
-            setTeam(playerid, newTeam);
-        }
-    );
-
+    const handleDrag = (releasePoint: Point, _initialPoint: Point): void => {
+        const box = containerRef!.current!.getBoundingClientRect();
+        const newPosition = {
+            x: ((releasePoint.x - box.left) / box.width) * 100,
+            y: ((releasePoint.y - box.top) / box.height) * 100,
+        };
+        const newTeam =
+            newPosition.x < 40
+                ? TeamID.A
+                : newPosition.x > 60
+                ? TeamID.B
+                : TeamID.NONE;
+        setTeam(player.id, newTeam);
+    };
     return (
-        <div
-            className='selection-token'
-            style={{
-                left: `${tokenPosition.x || 50}%`,
-                top: `${tokenPosition.y || 50}%`,
-                zIndex: draggable ? 100 : 5,
-            }}
-        >
-            <div
-                onMouseDown={
-                    draggable ? (e) => handleDrag(e, containerRef) : undefined
-                }
-                onTouchStart={
-                    draggable ? (e) => handleDrag(e, containerRef) : undefined
-                }
-            >
-                <Avatar
-                    {...player}
-                    color={myTeam.color || 'gray'}
-                    tooltip
-                    large
-                />
-            </div>
-        </div>
+        <Avatar
+            name={player.name}
+            avatar={player.avatar}
+            color={team.color}
+            position={position}
+            draggable={
+                draggable
+                    ? {
+                          setPosition: (newState) =>
+                              setPosition(player.id, newState),
+                          onDragRelease: handleDrag,
+                      }
+                    : undefined
+            }
+            tooltip
+            large
+        />
     );
 };
 
