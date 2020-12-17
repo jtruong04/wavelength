@@ -28,7 +28,7 @@ const Table: React.FC<TableProps> = ({
                     color: Color(leftColor).isDark() ? 'white' : 'black',
                 }}
             >
-                {leftLabel}
+                <h2>{leftLabel}</h2>
             </div>
             <div
                 className='selection selection-no-team'
@@ -37,8 +37,8 @@ const Table: React.FC<TableProps> = ({
                     color: Color(middleColor).isDark() ? 'white' : 'black',
                 }}
             >
-                {middleLabel}
-            </div>{' '}
+                <h2>{middleLabel}</h2>
+            </div>
             <div
                 className='selection selection-team'
                 style={{
@@ -46,7 +46,7 @@ const Table: React.FC<TableProps> = ({
                     color: Color(rightColor).isDark() ? 'white' : 'black',
                 }}
             >
-                {rightLabel}
+                <h2>{rightLabel}</h2>
             </div>
             {children}
         </div>

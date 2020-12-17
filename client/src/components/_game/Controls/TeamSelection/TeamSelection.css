@@ -10,6 +10,9 @@
 .selection {
     height: 100%;
     position: relative;
+}
+
+h2 {
     font-size: large;
 }
 
@@ -20,17 +23,4 @@
 .selection-no-team {
     width: 20%;
     background-color: #1f5d8c;
-}
-
-.selection-token {
-    position: absolute;
-    transform: translate(-50%, -50%);
-    touch-action: none;
-}
-
-.token-label {
-    transform: translate(0, -50%);
-}
-h2 {
-    color: black;
 }

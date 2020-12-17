@@ -8,7 +8,7 @@ import { PlayerListState, TeamState, UserIDState } from 'atoms/user';
 // Styling
 import './TeamSelection.css';
 import { TeamID } from 'enums';
-import Table from './Table/Table';
+import Table from './Table';
 import Token from './Token';
 
 export interface TeamSelectionProps {}

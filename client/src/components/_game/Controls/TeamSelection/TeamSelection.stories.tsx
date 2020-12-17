@@ -3,7 +3,7 @@ import { Story, Meta } from '@storybook/react/types-6-0';
 import TeamSelection, { TeamSelectionProps } from './TeamSelection';
 
 export default {
-    title: 'Game Components/TeamSelection',
+    title: 'Game Components/Control Panel/Team Selection',
     component: TeamSelection,
     argTypes: {},
 } as Meta;
