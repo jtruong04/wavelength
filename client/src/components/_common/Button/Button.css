@@ -1,0 +1,46 @@
+.button {
+    position: relative;
+    display: inline-block;
+}
+
+.button div {
+    color: white;
+    font-family: Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 36px;
+    text-align: center;
+    text-decoration: none;
+    background-color: #ffa12b;
+    display: block;
+    position: relative;
+    padding: 20px 40px;
+    text-shadow: 0px 1px 0px #000;
+    filter: dropshadow(color=#000, offx=0px, offy=1px);
+    box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
+    border-radius: 5px;
+    user-select: none;
+}
+/* 
+.button:focus {
+    background-color: #c96f00;
+    outline: none;
+} */
+
+.button div:active {
+    top: 10px;
+    background-color: #f78900;
+    box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
+}
+
+.button:after {
+    content: '';
+    height: 100%;
+    width: 100%;
+    padding: 4px;
+    position: absolute;
+    bottom: -15px;
+    left: -4px;
+    z-index: -1;
+    background-color: #2b1800;
+    border-radius: 5px;
+}
