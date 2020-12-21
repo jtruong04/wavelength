@@ -1,8 +1,6 @@
 // LIbraries
 import React, { useEffect } from 'react';
-// Material
-import { Card } from '@material-ui/core';
-// import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import styled from 'styled-components';
 // Recoil
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { Me, MyTeamState } from 'atoms/user';
@@ -10,12 +8,26 @@ import { ChatState } from 'atoms/chat';
 // Components
 import MessageList from './MessageList';
 import TextInput from 'components/_common/TextInput/TextInput';
+import Card from 'components/_common/Card';
 // Services
 import socket from 'services/socket';
 // Types
 import { IMessage } from 'types';
 import { ChatEvent } from 'enums';
 import { TextInputForm } from 'components/_common/TextInput';
+
+const StyledChatBox = styled(Card)`
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-content: stretch;
+    align-items: stretch;
+    padding: 5%;
+    max-width: 600px;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffffee;
+`;
 
 export interface ChatBoxProps {}
 
@@ -42,10 +54,10 @@ export const ChatBox = () => {
     }, [setMessages]);
 
     return (
-        <Card className='chat-box'>
+        <StyledChatBox>
             <MessageList />
             <TextInput onSubmit={onSubmit} />
-        </Card>
+        </StyledChatBox>
     );
 };
 

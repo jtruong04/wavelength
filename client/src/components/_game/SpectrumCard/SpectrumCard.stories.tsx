@@ -1,10 +1,10 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
-import { Card, CardProps } from './Card';
+import { SpectrumCard, SpectrumCardProps } from './SpectrumCard';
 
 export default {
-    title: 'Game Components/Card',
-    component: Card,
+    title: 'Game Components/Spectrum Card',
+    component: SpectrumCard,
     argTypes: {
         leftText: {
             table: {
@@ -35,7 +35,9 @@ export default {
     },
 } as Meta;
 
-export const Default: Story<CardProps> = (args) => <Card {...args} />;
+export const Default: Story<SpectrumCardProps> = (args) => (
+    <SpectrumCard {...args} />
+);
 Default.args = {
     leftText: 'Left',
     rightText: 'Right',

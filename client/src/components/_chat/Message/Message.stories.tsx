@@ -20,6 +20,6 @@ const Template: Story<MessageProps> = (args) => <Message {...args} />;
 export const Default = Template.bind({});
 Default.args = {
     name: 'Name',
-    body: 'Hello',
+    body: 'Hello. I am lorem ipsum.',
     isMine: false,
 };

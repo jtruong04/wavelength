@@ -1,15 +1,23 @@
 // Libraries
 import React from 'react';
+import styled from 'styled-components';
 // Recoil
 import { useRecoilValue } from 'recoil';
 import { ChatState } from 'atoms/chat';
+import { UserIDState } from 'atoms/user';
 // Components
-import Message from '../Message/Message';
+import Message from '../Message';
 // Types
 import { MessageProps } from '../Message';
-// Styling
-import '../Chat.css';
-import { UserIDState } from 'atoms/user';
+
+const MessageBox = styled.div`
+    overflow-y: scroll;
+    display: flex;
+    height: 100%;
+    flex-direction: column-reverse;
+    flex: 1 1 auto;
+    padding: 0;
+`;
 
 export type MessageListProps = {
     /**
@@ -23,11 +31,7 @@ export const MessageList = ({ messages }: MessageListProps) => {
         return messages.map((msg, idx) => <Message {...msg} key={idx} />);
     };
 
-    return (
-        <div className='message-box'>
-            <div>{renderMessages()}</div>
-        </div>
-    );
+    return <MessageBox>{renderMessages()}</MessageBox>;
 };
 
 const MessageListContainer = () => {

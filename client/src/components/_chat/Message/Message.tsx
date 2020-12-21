@@ -1,10 +1,41 @@
 // Libraries
 import React from 'react';
-// Material
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Typography, Card } from '@material-ui/core';
+import styled from 'styled-components';
 // Components
 import Avatar from 'components/_common/Avatar';
+import Typography from 'components/_common/Typography';
+import Card from 'components/_common/Card';
+
+const Nameplate = styled(Typography)`
+    font-size: 10px;
+`;
+
+const MessageBody = styled(Typography)`
+    font-size: 1rem;
+`;
+
+const BodyContainer = styled(Card)`
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    border-bottom-right-radius: ${(props: { isMine: boolean }) =>
+        props.isMine ? '0' : '10px'};
+    border-bottom-left-radius: ${(props: { isMine: boolean }) =>
+        props.isMine ? '10px' : '0'};
+    background-color: ${(props: { isMine: boolean }) =>
+        props.isMine ? 'lightblue' : '#DDDDDD'};
+    align-content: left;
+    text-align: left;
+`;
+
+const Container = styled.div`
+    display: flex;
+    align-items: flex-end;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    flex-direction: ${(props: { isMine: boolean }) =>
+        props.isMine ? 'row-reverse' : 'row'};
+`;
 
 export interface MessageProps {
     /**
@@ -29,36 +60,6 @@ export interface MessageProps {
     isMine?: boolean;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        card: (props: MessageProps) => ({
-            padding: 10,
-            marginLeft: '0.5em',
-            marginRight: '0.5em',
-            borderRadius: 10,
-            borderBottomRightRadius: props.isMine ? 0 : 10,
-            borderBottomLeftRadius: props.isMine ? 10 : 0,
-            background: props.isMine ? 'lightblue' : '#DDDDDD',
-            alignContent: 'left',
-            textAlign: 'left',
-        }),
-        title: {
-            fontSize: 10,
-        },
-        root: (props: MessageProps) => ({
-            display: 'flex',
-            alignItems: 'flex-end',
-            marginLeft: 10,
-            marginRight: 10,
-            marginBottom: 10,
-            flexDirection: props.isMine ? 'row-reverse' : 'row',
-        }),
-        body: {
-            alignContent: 'left',
-        },
-    })
-);
-
 const Message: React.FC<MessageProps> = ({
     name = '',
     avatar = undefined,
@@ -66,16 +67,16 @@ const Message: React.FC<MessageProps> = ({
     body,
     isMine = false,
 }) => {
-    const classes = useStyles({ name, avatar, color, body, isMine });
+    // const classes = useStyles({ name, avatar, color, body, isMine });
 
     return (
-        <div className={classes.root}>
+        <Container isMine={isMine}>
             <Avatar name={name} avatar={avatar} color={color} />
-            <Card className={classes.card}>
-                <Typography className={classes.title}>{name}</Typography>
-                <Typography className={classes.body}>{body}</Typography>
-            </Card>
-        </div>
+            <BodyContainer isMine={isMine}>
+                <Nameplate>{name}</Nameplate>
+                <MessageBody>{body}</MessageBody>
+            </BodyContainer>
+        </Container>
     );
 };
 
