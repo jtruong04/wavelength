@@ -2,8 +2,8 @@ import React from 'react';
 import './Target.css';
 import '../Dial.css';
 import { useRecoilValue } from 'recoil';
-import { TargetState } from 'atoms/ui';
-import { GameOptions } from 'atoms/stateMachine';
+import { TargetAtom } from 'atoms/game';
+import { OptionsAtom } from 'atoms/options';
 
 export interface TargetProps {
     /**
@@ -15,8 +15,6 @@ export interface TargetProps {
      */
     width: number;
 }
-
-// TODO: FIX - Firefox does not support conic-gradient with hard transitions
 
 export const Target: React.FC<TargetProps> = ({ center, width }) => {
     return (
@@ -51,8 +49,8 @@ export const Target: React.FC<TargetProps> = ({ center, width }) => {
 };
 
 const TargetContainer = () => {
-    const center = useRecoilValue(TargetState);
-    const options = useRecoilValue(GameOptions);
+    const center = useRecoilValue(TargetAtom);
+    const options = useRecoilValue(OptionsAtom);
     return <Target center={center} width={options.targetWidth} />;
 };
 

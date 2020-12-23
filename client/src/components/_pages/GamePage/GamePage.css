@@ -21,23 +21,28 @@ h1 {
 }
 
 .Dial {
+    position: relative;
     grid-area: Dial;
     z-index: 2;
     padding: 10%;
 }
 
 .Chat {
+    position: relative;
     grid-area: Chat;
+    height: 50vh;
     padding: 5%;
     z-index: 3;
 }
 
 .Score {
+    position: relative;
     grid-area: Score;
     z-index: 1;
 }
 
 .Control {
+    position: relative;
     grid-area: Control;
     padding: 0 5% 5% 5%;
     z-index: 4;

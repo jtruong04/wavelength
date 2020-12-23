@@ -1,11 +1,11 @@
 import React from 'react';
-import useStateMachine from 'hooks/useStateMachine';
+// import useStateMachine from 'hooks/useStateMachine';
 
 const ActiveDeliberation = () => {
-    const goToNextState = useStateMachine();
+    // const goToNextState = useStateMachine();
     const handleSubmit = (e: React.MouseEvent) => {
         e.preventDefault();
-        goToNextState();
+        // goToNextState();
     };
 
     return (

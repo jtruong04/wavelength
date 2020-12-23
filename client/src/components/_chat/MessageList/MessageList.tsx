@@ -3,27 +3,28 @@ import React from 'react';
 import styled from 'styled-components';
 // Recoil
 import { useRecoilValue } from 'recoil';
-import { ChatState } from 'atoms/chat';
-import { UserIDState } from 'atoms/user';
+import { ChatAtom } from 'atoms/chat';
 // Components
 import Message from '../Message';
 // Types
-import { MessageProps } from '../Message';
+import { UserID } from 'types';
 
 const MessageBox = styled.div`
     overflow-y: scroll;
     display: flex;
     height: 100%;
     flex-direction: column-reverse;
+    /* justify-content: flex-end; */
     flex: 1 1 auto;
     padding: 0;
+    /* max-height: 50vh; */
 `;
 
 export type MessageListProps = {
     /**
      * List of messages
      */
-    messages: MessageProps[];
+    messages: { userid: UserID; body: string }[];
 };
 
 export const MessageList = ({ messages }: MessageListProps) => {
@@ -35,12 +36,9 @@ export const MessageList = ({ messages }: MessageListProps) => {
 };
 
 const MessageListContainer = () => {
-    const messages = useRecoilValue(ChatState);
-    const userid = useRecoilValue(UserIDState);
-
+    const messages = useRecoilValue(ChatAtom);
     const processedMessages = messages.map((msg) => ({
         ...msg,
-        isMine: msg.id === userid,
     }));
     return <MessageList messages={processedMessages} />;
 };

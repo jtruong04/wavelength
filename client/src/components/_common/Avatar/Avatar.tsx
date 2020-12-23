@@ -16,9 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
             border: '1px solid #00000030',
             transition: 'background-color 0.2s linear',
         },
-        tooltipPlacementBottom: {
-            marginTop: '4px',
-        },
         small: {
             border: '1px solid #00000030',
             transition: 'background-color 0.2s linear',
@@ -46,7 +43,7 @@ export interface AvatarProps {
     /**
      * Index of avatar icons
      */
-    avatar?: number;
+    avatarid?: number;
     /**
      * Increase size
      */
@@ -55,7 +52,7 @@ export interface AvatarProps {
 
 const Avatar: React.FC<AvatarProps> = ({
     name,
-    avatar,
+    avatarid,
     color = '#808080',
     large = false,
 }) => {
@@ -64,7 +61,7 @@ const Avatar: React.FC<AvatarProps> = ({
         <MuiAvatar
             className={large ? classes.large : classes.small}
             alt={name}
-            src={avatars[avatar!]}
+            src={avatars[avatarid!]}
             style={{
                 backgroundColor: color,
             }}

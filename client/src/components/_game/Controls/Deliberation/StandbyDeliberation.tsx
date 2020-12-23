@@ -1,16 +1,16 @@
-import { HighLow } from 'enums';
+// import { HighLow } from 'enums';
 import React from 'react';
-import useStateMachine from 'hooks/useStateMachine';
+// import useStateMachine from 'hooks/useStateMachine';
 
 const StandbyDeliberation = () => {
-    const goToNextState = useStateMachine();
+    // const goToNextState = useStateMachine();
     const handleLow = (e: React.MouseEvent) => {
         e.preventDefault();
-        goToNextState({ highlow: HighLow.LOW });
+        // goToNextState({ highlow: HighLow.LOW });
     };
     const handleHigh = (e: React.MouseEvent) => {
         e.preventDefault();
-        goToNextState({ highlow: HighLow.HIGH });
+        // goToNextState({ highlow: HighLow.HIGH });
     };
     return (
         <div>

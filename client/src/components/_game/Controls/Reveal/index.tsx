@@ -1,15 +1,15 @@
-import useStateMachine from 'hooks/useStateMachine';
+// import useStateMachine from 'hooks/useStateMachine';
 import React from 'react';
 
 const Reveal = () => {
-    const goToNextState = useStateMachine();
+    // const goToNextState = useStateMachine();
     const handleContinue = (e: React.MouseEvent) => {
         e.preventDefault();
-        goToNextState({ continue: true });
+        // goToNextState({ continue: true });
     };
     const handleGameOver = (e: React.MouseEvent) => {
         e.preventDefault();
-        goToNextState({ continue: false });
+        // goToNextState({ continue: false });
     };
 
     return (

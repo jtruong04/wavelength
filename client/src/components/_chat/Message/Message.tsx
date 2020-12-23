@@ -5,6 +5,10 @@ import styled from 'styled-components';
 import Avatar from 'components/_common/Avatar';
 import Typography from 'components/_common/Typography';
 import Card from 'components/_common/Card';
+import { useRecoilValue } from 'recoil';
+import { MyIDAtom, PlayerAtom } from 'atoms/user';
+import { UserID } from 'types';
+import { TeamAtom } from 'atoms/team';
 
 const Nameplate = styled(Typography)`
     font-size: 10px;
@@ -45,7 +49,7 @@ export interface MessageProps {
     /**
      * Avatar index number
      */
-    avatar?: number;
+    avatarid?: number;
     /**
      * Background for avatar
      */
@@ -60,18 +64,16 @@ export interface MessageProps {
     isMine?: boolean;
 }
 
-const Message: React.FC<MessageProps> = ({
+export const Message: React.FC<MessageProps> = ({
     name = '',
-    avatar = undefined,
+    avatarid = undefined,
     color = '#808080',
     body,
     isMine = false,
 }) => {
-    // const classes = useStyles({ name, avatar, color, body, isMine });
-
     return (
         <Container isMine={isMine}>
-            <Avatar name={name} avatar={avatar} color={color} />
+            <Avatar name={name} avatarid={avatarid} color={color} />
             <BodyContainer isMine={isMine}>
                 <Nameplate>{name}</Nameplate>
                 <MessageBody>{body}</MessageBody>
@@ -80,4 +82,21 @@ const Message: React.FC<MessageProps> = ({
     );
 };
 
-export default Message;
+export const MessageContainer: React.FC<{ userid: UserID; body: string }> = ({
+    userid,
+    body,
+}) => {
+    const user = useRecoilValue(PlayerAtom(userid));
+    const { color } = useRecoilValue(TeamAtom(user.team || ''));
+    const myid = useRecoilValue(MyIDAtom);
+    return (
+        <Message
+            {...user}
+            body={body}
+            color={color}
+            isMine={user.id === myid}
+        />
+    );
+};
+
+export default MessageContainer;

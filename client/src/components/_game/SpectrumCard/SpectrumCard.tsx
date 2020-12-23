@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { PromptsState } from 'atoms/ui';
+import { SpectrumCardAtom } from 'atoms/game';
 import { useRecoilValue } from 'recoil';
 import color from 'color';
 import styled, { css } from 'styled-components';
@@ -34,8 +34,6 @@ const CardHalf = styled.div`
             border-bottom-right-radius: 20px 20px;
         `}
     background-color: ${(props: CardHalfProps) => props.color};
-    color: ${(props: CardHalfProps) =>
-        color(props.color).isDark() ? 'white' : 'black'},
 `;
 
 const Arrow = styled(Typography)`
@@ -84,14 +82,30 @@ export const SpectrumCard: React.FC<SpectrumCardProps> = ({
         <CardContainer>
             <CardHalf half='left' color={leftColor}>
                 <TextContainer>
-                    <Arrow>{'\u27F5'}</Arrow>
-                    <Typography>{leftText}</Typography>
+                    <Arrow
+                        color={color(leftColor).isDark() ? 'white' : 'black'}
+                    >
+                        {'\u27F5'}
+                    </Arrow>
+                    <Typography
+                        color={color(leftColor).isDark() ? 'white' : 'black'}
+                    >
+                        {leftText}
+                    </Typography>
                 </TextContainer>
             </CardHalf>
             <CardHalf half='right' color={rightColor}>
                 <TextContainer>
-                    <Arrow>{'\u27F6'}</Arrow>
-                    <Typography>{rightText}</Typography>
+                    <Arrow
+                        color={color(rightColor).isDark() ? 'white' : 'black'}
+                    >
+                        {'\u27F6'}
+                    </Arrow>
+                    <Typography
+                        color={color(rightColor).isDark() ? 'white' : 'black'}
+                    >
+                        {rightText}
+                    </Typography>
                 </TextContainer>
             </CardHalf>
         </CardContainer>
@@ -99,10 +113,8 @@ export const SpectrumCard: React.FC<SpectrumCardProps> = ({
 };
 
 export const SpectrumCardContainer = () => {
-    const card = useRecoilValue(PromptsState);
-    useEffect(() => {
-        console.log(card);
-    }, [card]);
+    const card = useRecoilValue(SpectrumCardAtom);
+
     return (
         <SpectrumCard
             leftText={card.text[0]}

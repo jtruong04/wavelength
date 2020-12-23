@@ -1,4 +1,4 @@
-import { RoomState } from 'atoms/room';
+import { RoomAtom } from 'atoms/room';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import './RoomIndicator.css';
@@ -11,7 +11,7 @@ export const RoomIndicator: React.FC<RoomIndicatorProps> = ({ room = '' }) => {
 };
 
 const RoomIndicatorContainer = () => {
-    const room = useRecoilValue(RoomState);
+    const room = useRecoilValue(RoomAtom);
     return <RoomIndicator room={room} />;
 };
 

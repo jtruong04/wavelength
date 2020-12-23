@@ -10,7 +10,8 @@ const Typography = styled.p`
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     font-weight: 400;
     margin: 0;
-    color: rgba(0, 0, 0, 0.87);
+    color: ${(props: { color?: string }) =>
+        props.color || 'rgba(0, 0, 0, 0.87)'};
 `;
 
 export default Typography;

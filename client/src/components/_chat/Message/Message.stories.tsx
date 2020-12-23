@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
-import Message, { MessageProps } from './Message';
+import { Message, MessageProps } from './Message';
 
 export default {
     title: 'Chat Components/Message',

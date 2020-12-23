@@ -32,7 +32,6 @@ function useRotate(
             if (newAngle < -90) newAngle = 180;
             if (newAngle < 0) newAngle = 0;
             setter(newAngle);
-            // socket.emit(GameEvent.DIAL_TURN, room, newAngle);
         };
         const endDrag = (event: MouseEvent | TouchEvent) => {
             document.removeEventListener('mousemove', rotationHandler);

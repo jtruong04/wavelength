@@ -11,9 +11,9 @@ export const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
     };
 
     return (
-        <div className='button' onClick={handleClick}>
+        <button className='button' onClick={handleClick}>
             <div>{children}</div>
-        </div>
+        </button>
     );
 };
 

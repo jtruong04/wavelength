@@ -24,8 +24,8 @@ Default.args = {
     large: false,
 };
 
-export const Small = Template.bind({});
-Small.args = {
+export const Large = Template.bind({});
+Large.args = {
     ...Default.args,
     large: true,
 };

@@ -1,15 +1,12 @@
 // Libraries
 import React, { useRef } from 'react';
-// Recoil
-import { DialState } from 'atoms/ui';
 // Hooks
-import { useSocketRecoilState } from 'hooks/useSocketRecoilState';
 import useRotate from 'hooks/useRotate';
 // Styling
 import '../Dial.css';
 import './Knob.css';
-// Types
-import { GameEvents } from 'enums';
+import { DialAtom } from 'atoms/game';
+import { useRecoilState } from 'recoil';
 
 export interface KnobProps {
     /**
@@ -63,10 +60,7 @@ export const Knob: React.FC<KnobProps> = ({ onDrag, angle }) => {
 };
 
 export const KnobContainer = () => {
-    const [angle, setAngle] = useSocketRecoilState(
-        DialState,
-        GameEvents.TURN_DIAL
-    );
+    const [angle, setAngle] = useRecoilState(DialAtom);
     const handleDrag = useRotate(setAngle);
     return <Knob onDrag={handleDrag} angle={angle} />;
 };

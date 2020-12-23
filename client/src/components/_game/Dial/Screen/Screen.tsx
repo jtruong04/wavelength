@@ -2,12 +2,12 @@ import React, { useRef, useState } from 'react';
 // Styling
 import './Screen.css';
 import '../Dial.css';
-import { useSocketRecoilState } from 'hooks/useSocketRecoilState';
-import { GameEvents } from 'enums';
-import { ScreenState } from 'atoms/ui';
+
 import { Point } from 'types';
 import { computeAngle } from 'utils/generic';
 import useRotate from 'hooks/useRotate';
+import { ScreenAtom } from 'atoms/game';
+import { useRecoilState } from 'recoil';
 
 export interface ScreenProps {
     angle: number;
@@ -54,9 +54,7 @@ export const Screen: React.FC<ScreenProps> = ({ angle, onDrag }) => {
                     noTransitions ? 'notransition' : ''
                 }`}
                 style={{
-                    transform: `translate(-50%, +50%) rotate(${
-                        90 + angle
-                    }deg) translate(0, 185%)`,
+                    transform: `translate(-50%, +50%) rotate(90deg) rotate(${angle}deg) translate(0, 185%)`,
                 }}
                 onMouseDown={handleDrag}
                 onTouchStart={handleDrag}
@@ -67,10 +65,8 @@ export const Screen: React.FC<ScreenProps> = ({ angle, onDrag }) => {
 };
 
 export const ScreenContainer = () => {
-    const [angle, setAngle] = useSocketRecoilState(
-        ScreenState,
-        GameEvents.TOGGLE_SCREEN
-    );
+    const [angle, setAngle] = useRecoilState(ScreenAtom);
+
     const onClick = (
         releasePoint: Point,
         _initialPoint: Point,
@@ -88,7 +84,9 @@ export const ScreenContainer = () => {
         const newAngle = computeAngle(pivotPoint, releasePoint) - 180;
         setAngle(newAngle > 90 || newAngle < -90 ? 180 : 0);
     };
+
     const handleDrag = useRotate(setAngle, onRelease, onClick);
+
     return <Screen onDrag={handleDrag} angle={angle} />;
 };
 

@@ -1,5 +1,3 @@
-import { TeamID } from 'enums';
-
 // Generic Types
 export type Point = {
     x: number;
@@ -8,26 +6,26 @@ export type Point = {
 
 // Common Types
 export type UserID = string;
-export interface User {
+export type TeamID = string;
+export type RoomID = string;
+
+export interface IUser {
     id: UserID;
     name: string;
-    avatar?: number;
+    avatarid?: number;
     team?: TeamID;
     host?: boolean;
-    tokenPosition?: Point;
 }
-export type PlayerMap = Map<UserID, User>;
-export type RoomID = string;
-export interface Team {
+
+export interface ITeam {
+    id: string;
     name: string;
     color?: string;
     score: number;
 }
+export type ITeamWithRoster = ITeam & { roster: UserID[] };
 
 export interface IMessage {
-    id: UserID;
-    name?: string;
-    avatar?: number;
-    color?: string;
+    userid: UserID;
     body: string;
 }

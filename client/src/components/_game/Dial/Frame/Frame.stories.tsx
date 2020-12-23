@@ -1,14 +1,14 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 import Frame, { FrameProps } from './Frame';
-// import { ScreenState } from 'atoms/ui';
+// import { ScreenAtom } from 'atoms/game';
 // import useRotate from 'hooks/useRotate';
 // import { useRecoilState } from 'recoil';
 // import { computeAngle } from 'utils/generic';
 // import { Point } from 'types';
 
 // const ScreenStoryContainer = () => {
-//     const [angle, setAngle] = useRecoilState(ScreenState);
+//     const [angle, setAngle] = useRecoilState(ScreenAtom);
 //     const onClick = () => setAngle((value) => (value > 90 ? 0 : 180));
 
 //     const onRelease = (

@@ -2,19 +2,22 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 // Material
-import { Button, TextField, Grid, IconButton } from '@material-ui/core';
+import { TextField, Grid, IconButton } from '@material-ui/core';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 // Recoil
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { UserIDState, Me } from 'atoms/user';
-import { RoomState } from 'atoms/room';
+import { MyIDAtom, PlayerListAtom, UserSelector } from 'atoms/user';
+import { RoomAtom } from 'atoms/room';
 // Components
 import AvatarMenu from './AvatarMenu';
 import Avatar from 'components/_common/Avatar';
+import Button from 'components/_common/Button';
 // Services
 import api from 'services/api';
 // Styling
 import './Menus.css';
+import { SocketEvent } from 'enums';
+import socket from 'services/socket';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -47,10 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
 const HostMenu = () => {
     const classes = useStyles();
     const { register, handleSubmit } = useForm();
-    const userid = useRecoilValue(UserIDState);
-    const setMe = useSetRecoilState(Me);
-
-    const setRoom = useSetRecoilState(RoomState);
+    const userid = useRecoilValue(MyIDAtom);
+    const setUser = useSetRecoilState(UserSelector);
+    const setPlayerList = useSetRecoilState(PlayerListAtom);
+    const setRoom = useSetRecoilState(RoomAtom);
     const [avatar, setAvatar] = useState(99);
     const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -63,8 +66,25 @@ const HostMenu = () => {
     const onSubmit = async (data: { name: string }) => {
         if (data.name === '') return;
         const newRoom = await api.getRoomID();
-        setMe({ name: data.name, avatar: avatar, id: userid, host: true });
-        setRoom(newRoom);
+        socket.emit(
+            SocketEvent.JOIN_ROOM,
+            {
+                room: newRoom.toUpperCase(),
+                userid,
+            },
+            () => {
+                setUser({
+                    name: data.name,
+                    avatarid: avatar,
+                    id: userid,
+                    host: true,
+                });
+                setPlayerList((current) => [...current, userid]);
+                setRoom(newRoom.toUpperCase());
+            }
+        );
+        // setUser({ name: data.name, avatarid: avatar, id: userid, host: true });
+        // setRoom(newRoom);
     };
     return (
         <form className={classes.form} noValidate>
@@ -103,12 +123,7 @@ const HostMenu = () => {
                             onClick={handleClick}
                             className={classes.icon}
                         >
-                            <Avatar
-                                name={''}
-                                avatar={avatar}
-                                large
-                                tooltip={false}
-                            />
+                            <Avatar name={''} avatarid={avatar} large />
                         </IconButton>
                         <AvatarMenu
                             anchorEl={anchorEl}
@@ -117,12 +132,12 @@ const HostMenu = () => {
                     </Grid>
                 </Grid>
                 <Button
-                    type='submit'
-                    fullWidth
-                    variant='contained'
-                    color='primary'
+                    // type='submit'
+                    // fullWidth
+                    // variant='contained'
+                    // color='primary'
                     onClick={handleSubmit(onSubmit)}
-                    className={classes.submit}
+                    // className={classes.submit}
                 >
                     Play
                 </Button>
