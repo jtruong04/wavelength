@@ -1,5 +1,5 @@
 import { atom, selector } from 'recoil';
-import { GameEvents, Role, StateMachine } from 'enums';
+import { GameEvents, Role, Screen, StateMachine } from 'enums';
 
 import { EmitEffect, LoggerEffect } from './atomEffects';
 import { MyIDAtom } from './user';
@@ -41,9 +41,9 @@ export const KnobAtom = atom<number>({
     default: 90,
     effects_UNSTABLE: [EmitEffect(GameEvents.SET_KNOB)],
 });
-export const ScreenAtom = atom<number>({
+export const ScreenAtom = atom<number | Screen>({
     key: 'screen',
-    default: 0,
+    default: Screen.CLOSED,
     effects_UNSTABLE: [
         EmitEffect(GameEvents.SET_SCREEN),
         // LoggerEffect('Screen'),

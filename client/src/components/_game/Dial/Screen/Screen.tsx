@@ -8,6 +8,7 @@ import { computeAngle } from 'utils/generic';
 import useRotate from 'hooks/useRotate';
 import { ScreenAtom, ScreenLockSelector } from 'atoms/game';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { Screen as ScreenEnum } from 'enums';
 
 export interface ScreenProps {
     angle: number;
@@ -73,7 +74,11 @@ export const ScreenContainer = () => {
         pivotPoint: Point
     ) => {
         const newAngle = computeAngle(releasePoint, pivotPoint);
-        setAngle(newAngle < 90 || newAngle > 270 ? 180 : 0);
+        setAngle(
+            newAngle < 90 || newAngle > 270
+                ? ScreenEnum.OPEN
+                : ScreenEnum.CLOSED
+        );
     };
 
     const onRelease = (
@@ -82,7 +87,11 @@ export const ScreenContainer = () => {
         pivotPoint: Point
     ) => {
         const newAngle = computeAngle(pivotPoint, releasePoint) - 180;
-        setAngle(newAngle > 90 || newAngle < -90 ? 180 : 0);
+        setAngle(
+            newAngle > 90 || newAngle < -90
+                ? ScreenEnum.OPEN
+                : ScreenEnum.CLOSED
+        );
     };
 
     const handleDrag = useRotate(setAngle, onRelease, onClick);

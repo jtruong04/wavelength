@@ -31,6 +31,11 @@ export enum HighLow {
     LOW = 0,
 }
 
+export enum Screen {
+    OPEN = 180,
+    CLOSED = 0,
+}
+
 export enum StateMachine {
     LOBBY = 'LOBBY',
     STANDBY = 'STANDBY',

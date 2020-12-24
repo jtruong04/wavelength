@@ -7,20 +7,19 @@ import {
     TurnTrackerAtom,
     UserRoleSelector,
 } from 'atoms/game';
-import { GameEvents, Role, StateMachine } from 'enums';
+import { GameEvents, Role, Screen, StateMachine } from 'enums';
 import { useRecoilCallback } from 'recoil';
 import { basic, advanced, colors } from 'assets/cards.json';
-import { selectRandomlyFromList } from 'utils/generic';
+import { rollDie, selectRandomlyFromList } from 'utils/generic';
 import socket from 'services/socket';
 import produce, { Draft } from 'immer';
 import { useCallback } from 'react';
-
 export const useLobbyHandler = () => {
     const onLobbyEnter = useRecoilCallback(() => () => {}, []);
     const onLobbyExit = useRecoilCallback(
         ({ set, snapshot }) => async () => {
             const rosterSizes = await snapshot.getPromise(RosterSizesSelector);
-            set(ScreenAtom, 0);
+            set(ScreenAtom, Screen.CLOSED);
             set(TurnTrackerAtom, {
                 currentTeam: 0,
                 currentPlayerOnEachTeam: Array(rosterSizes.length).fill(0),
@@ -41,7 +40,8 @@ export const useForkHandler = () => {
 export const useClueHandler = () => {
     const onClueEnter = useRecoilCallback(
         ({ set }) => () => {
-            set(TargetAtom, Math.random() * 180);
+            set(ScreenAtom, Screen.OPEN);
+            set(TargetAtom, Math.random() * 180 + rollDie(10) * 360);
             set(SpectrumCardAtom, {
                 text: selectRandomlyFromList([...advanced, ...basic]).value as [
                     string,
@@ -72,7 +72,7 @@ export const useStandbyHandler = () => {
 export const useRevealHandler = () => {
     const onRevealEnter = useRecoilCallback(
         ({ set }) => () => {
-            set(ScreenAtom, 180);
+            set(ScreenAtom, Screen.OPEN);
             // TODO: Compute and modify scores
         },
         []
