@@ -6,8 +6,8 @@ import '../Dial.css';
 import { Point } from 'types';
 import { computeAngle } from 'utils/generic';
 import useRotate from 'hooks/useRotate';
-import { ScreenAtom } from 'atoms/game';
-import { useRecoilState } from 'recoil';
+import { ScreenAtom, ScreenLockSelector } from 'atoms/game';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 export interface ScreenProps {
     angle: number;
@@ -66,7 +66,7 @@ export const Screen: React.FC<ScreenProps> = ({ angle, onDrag }) => {
 
 export const ScreenContainer = () => {
     const [angle, setAngle] = useRecoilState(ScreenAtom);
-
+    const lock = useRecoilValue(ScreenLockSelector);
     const onClick = (
         releasePoint: Point,
         _initialPoint: Point,
@@ -87,7 +87,12 @@ export const ScreenContainer = () => {
 
     const handleDrag = useRotate(setAngle, onRelease, onClick);
 
-    return <Screen onDrag={handleDrag} angle={angle} />;
+    return (
+        <Screen
+            onDrag={lock ? () => {} : handleDrag}
+            angle={lock ? 0 : angle}
+        />
+    );
 };
 
 export default ScreenContainer;

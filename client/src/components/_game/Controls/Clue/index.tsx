@@ -1,5 +1,5 @@
 // Libraries
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 // Recoil
 // import { useRecoilValue } from 'recoil';
@@ -10,6 +10,8 @@ import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
+import { useClueHandler } from 'hooks/useStateMachine';
+import SpectrumCard from 'components/_game/SpectrumCard';
 // Services
 // import socket from 'services/socket';
 // Types
@@ -42,28 +44,40 @@ export default function Input() {
         reset();
     };
 
+    const [onClueEnter, onClueExit] = useClueHandler();
+
+    useEffect(() => {
+        onClueEnter();
+        return () => {
+            onClueExit();
+        };
+    }, [onClueEnter, onClueExit]);
+
     return (
-        <form
-            className={classes.root}
-            noValidate
-            autoComplete='off'
-            onSubmit={handleSubmit(onSubmit)}
-        >
-            <TextField
-                id='clue'
-                variant='outlined'
-                inputRef={register}
-                name='clue'
-                InputProps={{
-                    endAdornment: (
-                        <InputAdornment position='end'>
-                            <IconButton type='submit'>
-                                <SendIcon />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                }}
-            />
-        </form>
+        <>
+            <SpectrumCard />
+            <form
+                className={classes.root}
+                noValidate
+                autoComplete='off'
+                onSubmit={handleSubmit(onSubmit)}
+            >
+                <TextField
+                    id='clue'
+                    variant='outlined'
+                    inputRef={register}
+                    name='clue'
+                    InputProps={{
+                        endAdornment: (
+                            <InputAdornment position='end'>
+                                <IconButton type='submit'>
+                                    <SendIcon />
+                                </IconButton>
+                            </InputAdornment>
+                        ),
+                    }}
+                />
+            </form>
+        </>
     );
 }

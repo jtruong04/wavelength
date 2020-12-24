@@ -2,11 +2,11 @@ import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
 import { Knob, KnobProps } from './Knob';
 import { useRecoilState } from 'recoil';
-import { DialAtom } from 'atoms/game';
+import { KnobAtom } from 'atoms/game';
 import useRotate from 'hooks/useRotate';
 
 const KnobStoryContainer = () => {
-    const [angle, setAngle] = useRecoilState(DialAtom);
+    const [angle, setAngle] = useRecoilState(KnobAtom);
     const handleDrag = useRotate(setAngle);
     return <Knob onDrag={handleDrag} angle={angle} />;
 };

@@ -26,18 +26,10 @@ export const EmitEffect: (event: string) => AtomEffect<any> = (event) => ({
     };
 };
 
-// export const EmitFamilyEffect: (
-//     event: GameEvents,
-//     parameter: string
-// ) => AtomEffect<any> = (event, parameter) => ({ onSet, setSelf }) => {
-//     if (!socket.hasListeners(event)) {
-//         socket.on(event, (payload: { parameter: string; newValue: any }) => {
-//             if (payload.parameter === parameter) {
-//                 setSelf(payload);
-//             }
-//         });
-//     }
-//     onSet((newValue) => {
-//         socket.emit(event, { parameter, newValue });
-//     });
-// };
+export const LoggerEffect: (label: string) => AtomEffect<any> = (
+    label: string
+) => ({ onSet }) => {
+    onSet((newValue, oldValue) => {
+        console.debug(`${label} \n`, oldValue, ' ---> ', newValue);
+    });
+};

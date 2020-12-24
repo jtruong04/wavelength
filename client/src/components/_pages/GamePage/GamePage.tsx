@@ -1,41 +1,42 @@
 // Libraries
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 // Components
 import ChatBox from 'components/_chat/ChatBox';
 import Dial from 'components/_game/Dial';
 import RoomIndicator from 'components/_ui/RoomIndicator';
-// Hooks
-// import useJoinRoom from 'hooks/depr_useJoinRoom';
+import Lobby from 'components/_game/Controls/Lobby';
+import Clue from 'components/_game/Controls/Clue';
+import ChangeState from 'components/_debug/ChangeState';
 // Styling
 import './GamePage.css';
-import Lobby from 'components/_game/Controls/Lobby';
-import socket from 'services/socket';
-import { SocketEvent } from 'enums';
+import { StateAtom } from 'atoms/game';
+import { StateMachine } from 'enums';
+import Fork from 'components/_game/Controls/Fork';
+import Active from 'components/_game/Controls/Active';
+import Standby from 'components/_game/Controls/Standby';
+import Reveal from 'components/_game/Controls/Reveal';
 import { useRecoilValue } from 'recoil';
-import { RoomAtom } from 'atoms/room';
-import { MyIDAtom } from 'atoms/user';
 
 const GamePage = () => {
-    // const room = useRecoilValue(RoomAtom);
-    // const userid = useRecoilValue(MyIDAtom);
-    // const [joined, setJoined] = useState(false);
-    // useEffect(() => {
-    //     // Join Room
-    //     socket.emit(
-    //         SocketEvent.JOIN_ROOM,
-    //         {
-    //             room,
-    //             userid,
-    //         },
-    //         () => {
-    //             setJoined(true);
-    //         }
-    //     );
-    // }, [room, userid]);
-
-    // if (!joined) {
-    //     return <div>Loading</div>;
-    // }
+    const gameState = useRecoilValue(StateAtom);
+    const renderState = (gameState: StateMachine) => {
+        switch (gameState) {
+            case StateMachine.LOBBY:
+                return <Lobby />;
+            case StateMachine.FORK:
+                return <Fork />;
+            case StateMachine.CLUE:
+                return <Clue />;
+            case StateMachine.ACTIVE:
+                return <Active />;
+            case StateMachine.STANDBY:
+                return <Standby />;
+            case StateMachine.REVEAL:
+                return <Reveal />;
+            default:
+                return null;
+        }
+    };
 
     return (
         <>
@@ -49,7 +50,8 @@ const GamePage = () => {
                     <Dial />
                 </div>
                 <div className='Control'>
-                    <Lobby />
+                    <ChangeState />
+                    {renderState(gameState)}
                 </div>
             </div>
         </>

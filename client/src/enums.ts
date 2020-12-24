@@ -19,6 +19,7 @@ export enum GameEvents {
     SET_TEAM_ROSTER = 'SET_TEAM_ROSTER',
     SET_PLAYER = 'SET_PLAYER',
     SET_PLAYER_LIST = 'SET_PLAYER_LIST',
+    NEXT = 'NEXT',
 }
 
 export enum ChatEvent {
@@ -30,7 +31,17 @@ export enum HighLow {
     LOW = 0,
 }
 
-
 export enum StateMachine {
-    TEAM_SELECTION
+    LOBBY = 'LOBBY',
+    STANDBY = 'STANDBY',
+    CLUE = 'CLUE',
+    REVEAL = 'REVEAL',
+    ACTIVE = 'ACTIVE',
+    FORK = 'FORK',
+}
+
+export enum Role {
+    STANDBY = 'STANDBY',
+    CLUE_GIVER = 'CLUE_GIVER',
+    ACTIVE = 'ACTIVE',
 }
