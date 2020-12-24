@@ -43,16 +43,28 @@ const GamePage = () => {
         <>
             <div className='grid-container'>
                 <div className='Chat'>
-                    <ChatBox />
+                    <div className='Chat-container'>
+                        <ChatBox />
+                    </div>
                 </div>
-                <div className='Score'></div>
+                <div className='Score'>
+                    <div className='Score-container'></div>
+                </div>
                 <div className='Card'>
-                    <SpectrumCard />
+                    <div className='Card-container'>
+                        <SpectrumCard />
+                    </div>
                 </div>
                 <div className='Dial'>
-                    <Dial />
+                    <div className='Dial-container'>
+                        <Dial />
+                    </div>
                 </div>
-                <div className='Control'>{renderState(gameState)}</div>
+                <div className='Control'>
+                    <div className='Control-container'>
+                        {renderState(gameState)}
+                    </div>
+                </div>
             </div>
             <RoomIndicator />
         </>

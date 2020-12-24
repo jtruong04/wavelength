@@ -19,7 +19,7 @@ const StyledChatBox = styled(Card)`
     justify-content: flex-end;
     align-content: stretch;
     align-items: stretch;
-    padding: 5%;
+    padding: 15px;
     max-width: 600px;
     width: 100%;
     height: 100%;
