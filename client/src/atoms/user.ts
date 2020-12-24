@@ -1,108 +1,85 @@
+import { GameEvents } from 'enums';
 import { atom, atomFamily, selector, selectorFamily } from 'recoil';
-import { User, UserID, Team, Point } from 'types';
-import { TeamID } from 'enums';
+import { IUser, TeamID, UserID } from 'types';
+import { EmitEffect } from './atomEffects';
+import { RosterAtom, TeamOrderingAtom } from './team';
+// import { TeamID } from 'enums';
 // import produce from 'immer';
-import teamDefaults from 'assets/teamNames.json';
+// import teamDefaults from 'assets/teamNames.json';
 
 // Base States
-export const UserIDState = atom<UserID>({
+export const MyIDAtom = atom<UserID>({
     key: 'userid',
     default: '',
 });
 
-export const PlayerListState = atom<UserID[]>({
+export const PlayerAtom = atomFamily<IUser, UserID>({
+    key: 'player',
+    default: (parameter) => ({
+        id: parameter,
+        name: 'No Name',
+        avatarid: 99,
+        // team: 'default_team',
+        host: false,
+    }),
+    effects_UNSTABLE: (parameter) => [
+        EmitEffect(`${GameEvents.SET_PLAYER}_${parameter}`),
+    ],
+});
+
+export const PlayerListAtom = atom<UserID[]>({
     key: 'player list',
     default: [],
-});
-
-export const PlayerState = atomFamily<User, UserID>({
-    key: 'player',
-    default: {
-        id: '',
-        name: '',
-        avatar: undefined,
-        team: TeamID.NONE,
-        host: false,
-        tokenPosition: {
-            x: Math.random() * 10 + 45,
-            y: Math.random() * 50 + 25,
-        },
-    },
-});
-
-export const TeamState = atomFamily<Team, TeamID>({
-    key: 'team',
-    default: (param) => ({
-        name: teamDefaults.names[0][param === TeamID.A ? 0 : 1],
-        color: teamDefaults.colors[param === TeamID.A ? 0 : 1],
-        score: 0,
-    }),
+    effects_UNSTABLE: [EmitEffect(GameEvents.SET_PLAYER_LIST)],
 });
 
 // Derived States
 
-export const Me = selector<User>({
+export const PlayerTeamSelector = selectorFamily<TeamID, UserID>({
+    key: 'player team',
+    get: (parameter) => ({ get }) => {
+        const teams = get(TeamOrderingAtom);
+        const team = teams.filter((team) => {
+            const roster = get(RosterAtom(team));
+            return roster.includes(parameter);
+        });
+        return team[0];
+    },
+    set: (parameter) => ({ get, set }, newValue) => {
+        const teams = get(TeamOrderingAtom);
+        teams.forEach((teamid) => {
+            set(RosterAtom(teamid), (currVal) =>
+                currVal.filter((userid) => userid !== parameter)
+            );
+        });
+        set(RosterAtom(newValue as string), (currVal) => [
+            ...currVal,
+            parameter,
+        ]);
+    },
+});
+
+export const IsCurrentOnTeamSelector = selector({
+    key: 'is on team',
+    get: ({ get }) => {
+        const teams = get(TeamOrderingAtom);
+        const myid = get(MyIDAtom);
+        const team = teams.filter((team) => {
+            const roster = get(RosterAtom(team));
+            return roster.includes(myid);
+        });
+        return team.length > 0;
+    },
+});
+
+export const UserSelector = selector<IUser>({
     key: 'me',
     get: ({ get }) => {
-        const userid = get(UserIDState);
-        return get(PlayerState(userid));
+        const userid = get(MyIDAtom);
+        return get(PlayerAtom(userid));
     },
     set: ({ get, set }, newValue) => {
-        const userid = get(UserIDState);
-        set(PlayerState(userid), newValue);
-    },
-});
-
-export const HostState = selector({
-    key: 'host',
-    get: ({ get }) => get(Me).host,
-});
-
-export const TokenStates = selectorFamily<Point, UserID>({
-    key: 'token position',
-    get: (parameter) => ({ get }) => {
-        const user = get(PlayerState(parameter));
-        return user.tokenPosition || { x: 50, y: 50 };
-    },
-    set: (parameter) => ({ set }, newValue) => {
-        set(PlayerState(parameter), (prevValue) => {
-            return { ...prevValue, tokenPosition: newValue as Point };
-        });
-    },
-});
-
-export const PlayerTeamStates = selectorFamily<TeamID, UserID>({
-    key: 'player team position',
-    get: (parameter) => ({ get }) => {
-        const user = get(PlayerState(parameter));
-        return user.team || TeamID.NONE;
-    },
-    set: (parameter) => ({ set }, newValue) => {
-        set(PlayerState(parameter), (prevValue) => {
-            return { ...prevValue, team: newValue as TeamID };
-        });
-    },
-});
-
-export const Roster = selectorFamily<UserID[], TeamID>({
-    key: 'roster',
-    get: (parameter) => ({ get }) => {
-        const playerList = get(PlayerListState);
-        return playerList.filter(
-            (player) => get(PlayerTeamStates(player)) === parameter
-        );
-    },
-});
-
-export const ScoreState = selectorFamily<number, TeamID>({
-    key: 'scores',
-    get: (parameter) => ({ get }) => {
-        return get(TeamState(parameter)).score;
-    },
-    set: (parameter) => ({ set }, newValue) => {
-        set(TeamState(parameter), (prevValue) => ({
-            ...prevValue,
-            score: newValue as number,
-        }));
+        const userid = get(MyIDAtom);
+        set(PlayerAtom(userid), newValue);
     },
 });

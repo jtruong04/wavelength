@@ -4,17 +4,27 @@
 
 import { customAlphabet } from 'nanoid';
 import englishUppercase from 'nanoid-dictionary/uppercase';
-import { User, UserID, RoomID } from '../types';
+import { IUser, UserID, RoomID } from '../types';
 const nanoid = customAlphabet(englishUppercase, 6);
 
 class RoomManager {
     rooms: Map<RoomID, Set<UserID>>;
     users: Map<UserID, RoomID>;
+    data: Map<RoomID, Map<string, any>>;
 
     constructor() {
         this.rooms = new Map();
         this.users = new Map();
+        this.data = new Map();
     }
+
+    saveData = (room: RoomID, key: string, value: any) => {
+        this.data.get(room)?.set(key, value);
+    };
+
+    readData = (room: RoomID, key: string): any => {
+        return this.data.get(room)?.get(key);
+    };
 
     createRoom = (): RoomID => {
         let room = '';
@@ -22,6 +32,7 @@ class RoomManager {
             room = nanoid();
         } while (this.rooms.has(room));
         this.rooms.set(room, new Set());
+        this.data.set(room, new Map());
         return room;
     };
 

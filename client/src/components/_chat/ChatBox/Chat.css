@@ -1,6 +1,0 @@
-.message-box {
-    overflow-y: scroll;
-    height: 400px;
-    display: flex;
-    flex-direction: column-reverse;
-}

@@ -12,12 +12,12 @@ export function flipCoin() {
     return Math.floor(Math.random() * 2) === 1;
 }
 
-export function dieRoll(max: number) {
+export function rollDie(max: number) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
 export function selectRandomlyFromList<T>(list: T[]) {
-    const randomValue = dieRoll(list.length);
+    const randomValue = rollDie(list.length);
     return { value: list[randomValue], index: randomValue };
 }
 
@@ -27,4 +27,8 @@ export function computeAngle(p1: Point, p2: Point): number {
     const angle = (Math.atan2(dy, dx) * 180) / Math.PI;
     if (angle < 0) return angle + 360;
     return angle;
+}
+
+export function computeDistance(p1: Point, p2: Point): number {
+    return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
 }

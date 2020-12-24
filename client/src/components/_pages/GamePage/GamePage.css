@@ -5,3 +5,73 @@ h1 {
     font-size: 5rem;
     text-shadow: 3px 3px rgb(6, 21, 39);
 }
+
+.grid-container {
+    margin: 0 5%;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(5, min-content);
+    gap: 0px 0px;
+    grid-template-areas:
+        'Score'
+        'Dial'
+        'Card'
+        'Control'
+        'Chat';
+}
+
+.Card {
+    position: relative;
+    grid-area: Card;
+    z-index: 2;
+    padding: 10%;
+}
+
+.Dial {
+    position: relative;
+    grid-area: Dial;
+    z-index: 2;
+    padding: 10% 20%;
+    /* max-width: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Chat {
+    position: relative;
+    grid-area: Chat;
+    height: 50vh;
+    padding: 10% 20%;
+    /* max-width: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Score {
+    position: relative;
+    grid-area: Score;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Control {
+    position: relative;
+    grid-area: Control;
+    padding: 0 5% 5% 5%;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+/* 
+.grid-cell {
+    padding: '5%';
+    margin: 'auto';
+    max-width: '600px';
+    width: '80%';
+} */

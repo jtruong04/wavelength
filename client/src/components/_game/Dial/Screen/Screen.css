@@ -1,0 +1,38 @@
+.screen {
+    height: 0;
+    position: absolute;
+    background-color: rgb(128, 179, 177);
+    transition: transform 0.5s cubic-bezier(0.55, 0, 1, 0.45);
+}
+
+.screen-plate {
+    width: 100%;
+    padding-top: 50%;
+    border-top-right-radius: 50% 100%;
+    border-top-left-radius: 50% 100%;
+    transform-origin: bottom center;
+}
+
+.screen-handle {
+    width: 10%;
+    height: 0;
+    padding-top: 30%;
+    left: 50%;
+    bottom: 0%;
+    border-radius: 1000px;
+}
+
+#screen-pivot {
+    width: 100%;
+    position: absolute;
+    height: 0;
+    padding-top: 100%;
+    z-index: -1;
+}
+
+.notransition {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important;
+}
