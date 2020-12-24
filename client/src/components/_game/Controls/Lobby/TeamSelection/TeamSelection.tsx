@@ -15,7 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const TeamSelectionContainer = styled.div`
     display: flex;
-    width: 95%;
+    width: 100%;
     flex-direction: row;
     justify-content: flex-start;
 `;

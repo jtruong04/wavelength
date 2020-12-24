@@ -7,43 +7,78 @@ h1 {
 }
 
 .grid-container {
-    margin: 0 5%;
     display: grid;
-    grid-template-columns: auto;
-    grid-template-rows: repeat(5, min-content);
+    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-rows: min-content min-content min-content min-content;
     gap: 0px 0px;
     grid-template-areas:
-        'Score'
-        'Dial'
-        'Card'
-        'Control'
-        'Chat';
+        'Score Chat'
+        'Dial Chat'
+        'Card Chat'
+        'Control Chat';
 }
 
+@media (max-width: 700px) {
+    .grid-container {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-rows: repeat(5, min-content);
+        gap: 0px 0px;
+        grid-template-areas:
+            'Dial'
+            'Card'
+            'Control'
+            'Score'
+            'Chat';
+    }
+}
 .Card {
     position: relative;
     grid-area: Card;
     z-index: 2;
-    padding: 10%;
+    display: flex;
+    justify-content: center;
+    /* background-color: aqua; */
+}
+
+.Card-container {
+    position: inherit;
+    width: 50%;
 }
 
 .Dial {
     position: relative;
     grid-area: Dial;
     z-index: 2;
-    padding: 10% 20%;
-    /* max-width: 500px; */
     display: flex;
     align-items: center;
     justify-content: center;
+    /* background-color: magenta; */
+}
+.Dial-container {
+    position: relative;
+    width: 75%;
+    max-width: 600px;
+    padding: 5% 20%;
 }
 
 .Chat {
     position: relative;
     grid-area: Chat;
-    height: 50vh;
-    padding: 10% 20%;
     /* max-width: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: purple; */
+}
+
+.Chat-container {
+    /* min-height: 200px; */
+    height: 500px;
+    width: 90%;
+    padding: 50px 5%;
+    /* height: 600px; */
+    position: inherit;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -56,17 +91,27 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* background-color: greenyellow; */
+}
+
+.Score-container {
+    position: inherit;
 }
 
 .Control {
     position: relative;
     grid-area: Control;
-    padding: 0 5% 5% 5%;
+    padding: 1%;
     z-index: 4;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    /* background-color: lightcoral; */
+}
+
+.Control-container {
+    position: inherit;
 }
 /* 
 .grid-cell {
