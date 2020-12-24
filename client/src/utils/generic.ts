@@ -12,12 +12,12 @@ export function flipCoin() {
     return Math.floor(Math.random() * 2) === 1;
 }
 
-export function dieRoll(max: number) {
+export function rollDie(max: number) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
 export function selectRandomlyFromList<T>(list: T[]) {
-    const randomValue = dieRoll(list.length);
+    const randomValue = rollDie(list.length);
     return { value: list[randomValue], index: randomValue };
 }
 
