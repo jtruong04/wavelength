@@ -1,14 +1,15 @@
-import { useEffect } from 'react';
 import { SpectrumCardAtom } from 'atoms/game';
 import { useRecoilValue } from 'recoil';
 import color from 'color';
 import styled, { css } from 'styled-components';
 import Typography from 'components/_common/Typography';
+
 const CardContainer = styled.div`
     position: relative;
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
     display: flex;
+    flex-basis: auto;
     justify-content: center;
 `;
 
@@ -20,7 +21,7 @@ interface CardHalfProps {
 const CardHalf = styled.div`
     position: relative;
     width: 50%;
-    height:100%;
+    /* height:100%; */
     ${(props: CardHalfProps) =>
         props.half === 'left' &&
         css`
@@ -34,6 +35,8 @@ const CardHalf = styled.div`
             border-bottom-right-radius: 20px 20px;
         `}
     background-color: ${(props: CardHalfProps) => props.color};
+    color: ${(props: CardHalfProps) =>
+        color(props.color).isDark() ? 'white' : 'black'};
 `;
 
 const Arrow = styled(Typography)`
@@ -42,11 +45,13 @@ const Arrow = styled(Typography)`
 
 const TextContainer = styled.div`
     font-size: large;
-    position: absolute;
-    top: 0;
+    margin-bottom: 20px;
+    /* padding: 50px 0; */
+    /* position: absolute; */
+    /* top: 0;
     left: 0;
     bottom: 0;
-    right: 0;
+    right: 0; */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -82,30 +87,14 @@ export const SpectrumCard: React.FC<SpectrumCardProps> = ({
         <CardContainer>
             <CardHalf half='left' color={leftColor}>
                 <TextContainer>
-                    <Arrow
-                        color={color(leftColor).isDark() ? 'white' : 'black'}
-                    >
-                        {'\u27F5'}
-                    </Arrow>
-                    <Typography
-                        color={color(leftColor).isDark() ? 'white' : 'black'}
-                    >
-                        {leftText}
-                    </Typography>
+                    <Arrow>{'\u27F5'}</Arrow>
+                    <Typography>{leftText}</Typography>
                 </TextContainer>
             </CardHalf>
             <CardHalf half='right' color={rightColor}>
                 <TextContainer>
-                    <Arrow
-                        color={color(rightColor).isDark() ? 'white' : 'black'}
-                    >
-                        {'\u27F6'}
-                    </Arrow>
-                    <Typography
-                        color={color(rightColor).isDark() ? 'white' : 'black'}
-                    >
-                        {rightText}
-                    </Typography>
+                    <Arrow>{'\u27F6'}</Arrow>
+                    <Typography>{rightText}</Typography>
                 </TextContainer>
             </CardHalf>
         </CardContainer>

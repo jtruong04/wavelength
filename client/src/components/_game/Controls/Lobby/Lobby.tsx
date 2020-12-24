@@ -1,6 +1,7 @@
+import { TeamOrderingAtom } from 'atoms/team';
 import { UserSelector } from 'atoms/user';
 import Button from 'components/_common/Button';
-import { useLobbyHandler } from 'hooks/useStateMachine';
+import useStateMachine, { useLobbyHandler } from 'hooks/useStateMachine';
 import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import TeamSelection from './TeamSelection';
@@ -17,15 +18,22 @@ const Lobby: React.FC<LobbyProps> = () => {
             onLobbyExit();
         };
     }, [onLobbyEnter, onLobbyExit]);
+    const goToNextState = useStateMachine();
 
     const handleClick = () => {
-        // onLobbyExit();
+        goToNextState();
     };
+
+    const teams = useRecoilValue(TeamOrderingAtom);
 
     return (
         <>
-            {host && <Button onClick={handleClick}>Start</Button>}
             <TeamSelection />
+            {host && (
+                <Button onClick={handleClick}>
+                    {teams.length > 1 ? 'Start' : 'Start Free Play'}
+                </Button>
+            )}
         </>
     );
 };

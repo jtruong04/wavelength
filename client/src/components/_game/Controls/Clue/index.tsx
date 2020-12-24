@@ -11,12 +11,15 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
 import { useClueHandler } from 'hooks/useStateMachine';
-import SpectrumCard from 'components/_game/SpectrumCard';
+import { ClueAtom } from 'atoms/game';
+import { useRecoilState } from 'recoil';
+import Typography from 'components/_common/Typography';
+import Button from 'components/_common/Button';
 // Services
 // import socket from 'services/socket';
 // Types
 // import { ChatEvent } from 'enums';
-// import useStateMachine from 'hooks/useStateMachine';
+import useStateMachine from 'hooks/useStateMachine';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -24,6 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
             '& > *': {
                 width: '100%',
             },
+            '& .MuiInputBase-root': { backgroundColor: 'white' },
         },
     })
 );
@@ -34,12 +38,14 @@ interface Inputs {
 
 export default function Input() {
     const classes = useStyles();
+    const [clue, setClue] = useRecoilState(ClueAtom);
     // const userid = useRecoilValue(MyID);
-    // const goToNextState = useStateMachine();
+    const goToNextState = useStateMachine();
     const { register, handleSubmit, reset } = useForm<Inputs>();
 
     const onSubmit = (data: Inputs) => {
         if (data.clue === '') return;
+        setClue(data.clue);
         // goToNextState({ submittedClue: data.clue });
         reset();
     };
@@ -53,9 +59,21 @@ export default function Input() {
         };
     }, [onClueEnter, onClueExit]);
 
+    const handleClick = () => {
+        goToNextState();
+    };
+
+    if (clue) {
+        return (
+            <>
+                <Typography size='xx-large'>{clue.toUpperCase()}</Typography>
+                <Button onClick={handleClick}>Reveal To Others</Button>
+            </>
+        );
+    }
+
     return (
         <>
-            <SpectrumCard />
             <form
                 className={classes.root}
                 noValidate
@@ -67,6 +85,7 @@ export default function Input() {
                     variant='outlined'
                     inputRef={register}
                     name='clue'
+                    label='Clue'
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position='end'>

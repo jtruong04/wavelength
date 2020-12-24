@@ -9,36 +9,53 @@ h1 {
 .grid-container {
     margin: 0 5%;
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    gap: 0% 0%;
+    grid-template-columns: auto;
+    grid-template-rows: repeat(5, min-content);
+    gap: 0px 0px;
     grid-template-areas:
-        'Dial Dial Dial Dial Score Score'
-        'Dial Dial Dial Dial Chat Chat'
-        'Dial Dial Dial Dial Chat Chat'
-        'Control Control Control Control Chat Chat'
-        'Control Control Control Control Chat Chat';
+        'Score'
+        'Dial'
+        'Card'
+        'Control'
+        'Chat';
+}
+
+.Card {
+    position: relative;
+    grid-area: Card;
+    z-index: 2;
+    padding: 10%;
 }
 
 .Dial {
     position: relative;
     grid-area: Dial;
     z-index: 2;
-    padding: 10%;
+    padding: 10% 20%;
+    /* max-width: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .Chat {
     position: relative;
     grid-area: Chat;
     height: 50vh;
-    padding: 5%;
-    z-index: 3;
+    padding: 10% 20%;
+    /* max-width: 500px; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .Score {
     position: relative;
     grid-area: Score;
-    z-index: 1;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .Control {
@@ -46,6 +63,10 @@ h1 {
     grid-area: Control;
     padding: 0 5% 5% 5%;
     z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 /* 
 .grid-cell {

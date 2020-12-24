@@ -6,6 +6,9 @@ export enum SocketEvent {
     REQUEST = 'REQUEST',
 }
 
+
+
+
 export enum GameEvents {
     SET_KNOB = 'SET_KNOB',
     SET_TARGET = 'SET_TARGET',
@@ -20,15 +23,17 @@ export enum GameEvents {
     SET_PLAYER = 'SET_PLAYER',
     SET_PLAYER_LIST = 'SET_PLAYER_LIST',
     NEXT = 'NEXT',
+    SET_OVERUNDER = "SET_OVERUNDER",
+    SET_CONTINUE = "SET_CONTINUE"
 }
 
 export enum ChatEvent {
     MESSAGE = 'message',
 }
 
-export enum HighLow {
-    HIGH = 180,
-    LOW = 0,
+export enum OverUnder {
+    UNDER = 180,
+    OVER = 0,
 }
 
 export enum Screen {

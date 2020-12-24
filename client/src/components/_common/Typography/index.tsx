@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const Typography = styled.p`
     margin-block-start: 1em;
@@ -10,8 +10,16 @@ const Typography = styled.p`
     font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
     font-weight: 400;
     margin: 0;
-    color: ${(props: { color?: string }) =>
-        props.color || 'rgba(0, 0, 0, 0.87)'};
+    ${(props: { size?: string }) =>
+        props.size &&
+        css`
+            font-size: ${props.size};
+        `}
+    ${(props: { color?: string }) =>
+        props.color &&
+        css`
+            color: ${props.color};
+        `}
 `;
 
 export default Typography;

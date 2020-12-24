@@ -14,8 +14,6 @@ const useStyles = makeStyles((theme: Theme) =>
             '& > *': {
                 width: '100%',
             },
-            backgroundColor: 'white',
-            opacity: '0.75',
         },
     })
 );
@@ -41,18 +39,18 @@ export const TextInput: React.FC<TextInputProps> = ({ onSubmit }) => {
         <form
             className={classes.root}
             noValidate
-            autoComplete="off"
+            autoComplete='off'
             onSubmit={handleSubmit(onClickSubmit)}
         >
             <TextField
-                id="input"
-                variant="outlined"
+                id='input'
+                variant='outlined'
                 inputRef={register}
-                name="input"
+                name='input'
                 InputProps={{
                     endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton type="submit">
+                        <InputAdornment position='end'>
+                            <IconButton type='submit'>
                                 <SendIcon />
                             </IconButton>
                         </InputAdornment>

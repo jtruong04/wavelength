@@ -1,32 +1,30 @@
 // import useStateMachine from 'hooks/useStateMachine';
-import { useRevealHandler } from 'hooks/useStateMachine';
+import Button from 'components/_common/Button';
+import useStateMachine, { useRevealHandler } from 'hooks/useStateMachine';
 import React, { useEffect } from 'react';
-import SpectrumCard from 'components/_game/SpectrumCard';
 
 const Reveal = () => {
     const [onRevealEnter, onRevealExit] = useRevealHandler();
     useEffect(() => {
         onRevealEnter();
         return () => {
-            onRevealExit(true);
+            onRevealExit();
         };
     }, [onRevealEnter, onRevealExit]);
-    // const goToNextState = useStateMachine();
-    const handleContinue = (e: React.MouseEvent) => {
+    const goToNextState = useStateMachine();
+    const handleContinue = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
-        // goToNextState({ continue: true });
+        goToNextState({ continue: true });
     };
-    const handleGameOver = (e: React.MouseEvent) => {
+    const handleGameOver = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
-        // goToNextState({ continue: false });
+        goToNextState({ continue: false });
     };
 
     return (
         <div>
-            <div>Reveal State</div>
-            <SpectrumCard />
-            <button onClick={handleContinue}>Continue</button>
-            <button onClick={handleGameOver}>End</button>
+            <Button onClick={handleContinue}>Continue</Button>
+            <Button onClick={handleGameOver}>End</Button>
         </div>
     );
 };

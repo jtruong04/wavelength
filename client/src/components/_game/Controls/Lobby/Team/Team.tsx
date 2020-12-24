@@ -3,6 +3,7 @@ import {
     TeamOrderingAtom,
     TeamWithRosterSelector,
 } from 'atoms/team';
+import color from 'color';
 import React from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
@@ -24,6 +25,8 @@ const DraggableContainer = styled.div`
     flex: 1 0 0;
     background-color: ${(props: { color?: string }) =>
         props.color || '#808080'};
+    color: ${(props: { color?: string }) =>
+        color(props.color).isDark() ? 'white' : 'black'};
 `;
 const Title = styled.input`
     width: 96%;
@@ -38,7 +41,7 @@ const Title = styled.input`
     font-size: 1rem;
     margin: 0;
     color: ${(props: { color?: string }) =>
-        props.color || 'rgba(0, 0, 0, 0.87)'};
+        color(props.color).isDark() ? 'white' : 'black'};
 `;
 const List = styled.div`
     flex-grow: 1;
@@ -78,6 +81,7 @@ const Team: React.FC<TeamProps> = ({ teamid, index }) => {
                             onChange={handleTitleChange}
                             name='teamName'
                             value={team.name}
+                            color={team.color}
                         />
                         {teams.length > 1 && <RemoveTeam teamid={teamid} />}
                         <Droppable droppableId={teamid} type='user'>

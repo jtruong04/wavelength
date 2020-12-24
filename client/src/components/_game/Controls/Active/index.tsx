@@ -1,11 +1,12 @@
+import { ClueAtom } from 'atoms/game';
+import Typography from 'components/_common/Typography';
 import { useActiveHandler } from 'hooks/useStateMachine';
 import React, { useEffect } from 'react';
-// import useStateMachine from 'hooks/useStateMachine';
-import SpectrumCard from 'components/_game/SpectrumCard';
-
+import { useRecoilValue } from 'recoil';
 const Active = () => {
     // const goToNextState = useStateMachine();
     const [onActiveEnter, onActiveExit] = useActiveHandler();
+    const clue = useRecoilValue(ClueAtom);
 
     useEffect(() => {
         onActiveEnter();
@@ -14,18 +15,12 @@ const Active = () => {
         };
     }, [onActiveEnter, onActiveExit]);
 
-    const handleSubmit = (e: React.MouseEvent) => {
-        e.preventDefault();
-        // goToNextState();
-    };
+    // const handleSubmit = (e: React.MouseEvent) => {
+    //     e.preventDefault();
+    //     // goToNextState();
+    // };
 
-    return (
-        <div>
-            <SpectrumCard />
-
-            <button onClick={handleSubmit}>Submit</button>
-        </div>
-    );
+    return <Typography size='xx-large'>{clue.toUpperCase()}</Typography>;
 };
 
 export default Active;

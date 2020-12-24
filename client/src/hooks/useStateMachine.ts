@@ -1,4 +1,5 @@
 import {
+    ClueAtom,
     RosterSizesSelector,
     ScreenAtom,
     SpectrumCardAtom,
@@ -78,32 +79,28 @@ export const useRevealHandler = () => {
         []
     );
     const onRevealExit = useRecoilCallback(
-        ({ set }) => async (continuePlaying?: boolean) => {
-            if (continuePlaying) {
-                set(
-                    TurnTrackerAtom,
-                    produce(
-                        (
-                            draft: Draft<{
-                                currentTeam: number;
-                                currentPlayerOnEachTeam: number[];
-                                numPlayers: number[];
-                            }>
-                        ) => {
-                            draft.currentPlayerOnEachTeam[draft.currentTeam] =
-                                (draft.currentPlayerOnEachTeam[
-                                    draft.currentTeam
-                                ] +
-                                    1) %
-                                draft.numPlayers[draft.currentTeam];
-                            draft.currentTeam =
-                                (draft.currentTeam + 1) %
-                                draft.numPlayers.length;
-                            return draft;
-                        }
-                    )
-                );
-            }
+        ({ set }) => async () => {
+            set(ClueAtom, '');
+            set(
+                TurnTrackerAtom,
+                produce(
+                    (
+                        draft: Draft<{
+                            currentTeam: number;
+                            currentPlayerOnEachTeam: number[];
+                            numPlayers: number[];
+                        }>
+                    ) => {
+                        draft.currentPlayerOnEachTeam[draft.currentTeam] =
+                            (draft.currentPlayerOnEachTeam[draft.currentTeam] +
+                                1) %
+                            draft.numPlayers[draft.currentTeam];
+                        draft.currentTeam =
+                            (draft.currentTeam + 1) % draft.numPlayers.length;
+                        return draft;
+                    }
+                )
+            );
         },
         []
     );
@@ -133,6 +130,7 @@ const useStateMachine = () => {
         ) => {
             const userRole = await snapshot.getPromise(UserRoleSelector);
             const currentState = await snapshot.getPromise(StateAtom);
+
             let nextState: StateMachine | null = null;
             switch (currentState) {
                 case StateMachine.LOBBY:

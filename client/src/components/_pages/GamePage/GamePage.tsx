@@ -6,7 +6,7 @@ import Dial from 'components/_game/Dial';
 import RoomIndicator from 'components/_ui/RoomIndicator';
 import Lobby from 'components/_game/Controls/Lobby';
 import Clue from 'components/_game/Controls/Clue';
-import ChangeState from 'components/_debug/ChangeState';
+// import ChangeState from 'components/_debug/ChangeState';
 // Styling
 import './GamePage.css';
 import { StateAtom } from 'atoms/game';
@@ -16,6 +16,7 @@ import Active from 'components/_game/Controls/Active';
 import Standby from 'components/_game/Controls/Standby';
 import Reveal from 'components/_game/Controls/Reveal';
 import { useRecoilValue } from 'recoil';
+import SpectrumCard from 'components/_game/SpectrumCard';
 
 const GamePage = () => {
     const gameState = useRecoilValue(StateAtom);
@@ -40,20 +41,20 @@ const GamePage = () => {
 
     return (
         <>
-            <RoomIndicator />
             <div className='grid-container'>
                 <div className='Chat'>
                     <ChatBox />
                 </div>
                 <div className='Score'></div>
+                <div className='Card'>
+                    <SpectrumCard />
+                </div>
                 <div className='Dial'>
                     <Dial />
                 </div>
-                <div className='Control'>
-                    <ChangeState />
-                    {renderState(gameState)}
-                </div>
+                <div className='Control'>{renderState(gameState)}</div>
             </div>
+            <RoomIndicator />
         </>
     );
 };

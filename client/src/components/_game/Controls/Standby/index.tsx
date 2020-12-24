@@ -1,12 +1,17 @@
 // import { HighLow } from 'enums';
+import { ClueAtom, OverUnderAtom } from 'atoms/game';
+import Button from 'components/_common/Button';
+import Typography from 'components/_common/Typography';
+import { OverUnder } from 'enums';
 import { useStandbyHandler } from 'hooks/useStateMachine';
 import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 // import useStateMachine from 'hooks/useStateMachine';
-import SpectrumCard from 'components/_game/SpectrumCard';
 
 const Standby = () => {
     const [onStandbyEnter, onStandbyExit] = useStandbyHandler();
-
+    const clue = useRecoilValue(ClueAtom);
+    const [overUnder, setOverUnder] = useRecoilState(OverUnderAtom);
     useEffect(() => {
         onStandbyEnter();
         return () => {
@@ -15,21 +20,59 @@ const Standby = () => {
     }, [onStandbyEnter, onStandbyExit]);
 
     // const goToNextState = useStateMachine();
-    const handleLow = (e: React.MouseEvent) => {
+    const handleOver = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
+        setOverUnder(OverUnder.OVER);
         // goToNextState({ highlow: HighLow.LOW });
     };
-    const handleHigh = (e: React.MouseEvent) => {
+    const handleUnder = (e: React.MouseEvent | React.TouchEvent) => {
         e.preventDefault();
+        setOverUnder(OverUnder.UNDER);
+
         // goToNextState({ highlow: HighLow.HIGH });
     };
     return (
-        <div>
-            <SpectrumCard />
-
-            <button onClick={handleLow}>LOW</button>
-            <button onClick={handleHigh}>HIGH</button>
-        </div>
+        <>
+            <Typography size='xx-large'>{clue.toUpperCase()}</Typography>
+            <Typography>
+                Is the other team over or the under the true value?
+            </Typography>
+            <div
+                style={{
+                    display: 'flex',
+                    width: '100%',
+                    justifyContent: 'center',
+                    // padding: '0 10%',
+                }}
+            >
+                <div
+                    style={{
+                        // width: '90%',
+                        margin: '0 1%',
+                    }}
+                >
+                    <Button
+                        onClick={handleOver}
+                        grayscale={overUnder === OverUnder.UNDER}
+                    >
+                        Over
+                    </Button>
+                </div>
+                <div
+                    style={{
+                        // width: '90%',
+                        margin: '0 1%',
+                    }}
+                >
+                    <Button
+                        onClick={handleUnder}
+                        grayscale={overUnder === OverUnder.OVER}
+                    >
+                        Under
+                    </Button>
+                </div>
+            </div>
+        </>
     );
 };
 

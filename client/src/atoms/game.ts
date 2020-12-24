@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil';
-import { GameEvents, Role, Screen, StateMachine } from 'enums';
+import { GameEvents, OverUnder, Role, Screen, StateMachine } from 'enums';
 
-import { EmitEffect, LoggerEffect } from './atomEffects';
+import { EmitEffect } from './atomEffects';
 import { MyIDAtom } from './user';
 import { RosterAtom, TeamOrderingAtom } from './team';
 
@@ -64,6 +64,11 @@ export const ClueAtom = atom<string>({
     key: 'clue',
     default: '',
     effects_UNSTABLE: [EmitEffect(GameEvents.SET_CLUE)],
+});
+export const OverUnderAtom = atom<OverUnder | null>({
+    key: 'over under',
+    default: null,
+    effects_UNSTABLE: [EmitEffect(GameEvents.SET_OVERUNDER)],
 });
 
 // Selectors
