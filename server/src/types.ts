@@ -1,5 +1,3 @@
-import { TeamID } from './enums';
-
 // Generic Types
 export type Point = {
     x: number;
@@ -9,11 +7,14 @@ export type Point = {
 // Common Types
 export type UserID = string;
 export type RoomID = string;
+export type TeamID = string;
+
 export interface IUser {
-    id: string;
+    id: UserID;
     name: string;
-    avatar?: number;
+    avatarid?: number;
     team?: TeamID;
+    host?: boolean;
 }
 // export type PlayerSet = Set<UserID>;
 
