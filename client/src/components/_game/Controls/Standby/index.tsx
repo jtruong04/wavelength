@@ -53,7 +53,11 @@ const Standby = () => {
                 >
                     <Button
                         onClick={handleOver}
-                        grayscale={overUnder === OverUnder.UNDER}
+                        color={
+                            overUnder === OverUnder.UNDER
+                                ? '#808080'
+                                : undefined
+                        }
                     >
                         Over
                     </Button>
@@ -66,7 +70,9 @@ const Standby = () => {
                 >
                     <Button
                         onClick={handleUnder}
-                        grayscale={overUnder === OverUnder.OVER}
+                        color={
+                            overUnder === OverUnder.OVER ? '#808080' : undefined
+                        }
                     >
                         Under
                     </Button>
