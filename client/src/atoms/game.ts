@@ -23,7 +23,7 @@ export const TurnTrackerAtom = atom<{
         numPlayers: [],
     },
     effects_UNSTABLE: [
-        EmitEffect(GameEvents.SET_TURN),
+        // EmitEffect(GameEvents.SET_TURN),
         // LoggerEffect('Turn tracker'),
     ],
 });
