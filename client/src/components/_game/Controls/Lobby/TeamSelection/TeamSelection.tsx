@@ -25,6 +25,7 @@ export interface TeamSelectionProps {}
 const TeamSelection = () => {
     const teamOrdering = useRecoilValue(TeamOrderingAtom);
     const { host } = useRecoilValue(UserSelector);
+
     // Create team if none
     const createTeam = useRecoilCallback(
         ({ set }) => () => {
@@ -39,14 +40,16 @@ const TeamSelection = () => {
             createTeam();
         }
     }, [teamOrdering, createTeam, host]);
+
     // Join First Team if not on one
     const isOnTeam = useRecoilValue(IsCurrentOnTeamSelector);
     const joinLobby = useRecoilCallback(
         ({ set, snapshot }) => async () => {
             const teamOrdering = await snapshot.getPromise(TeamOrderingAtom);
             const myid = await snapshot.getPromise(MyIDAtom);
+            const { host } = await snapshot.getPromise(UserSelector);
             set(RosterAtom(teamOrdering[0]), (currVal) => {
-                if (currVal.includes(myid)) {
+                if (currVal.includes(myid) || (currVal.length === 0 && !host)) {
                     return currVal;
                 }
                 return [...currVal, myid];
