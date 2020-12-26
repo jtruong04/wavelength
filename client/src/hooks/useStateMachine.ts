@@ -1,6 +1,5 @@
 import {
     ClueAtom,
-    RosterSizesSelector,
     ScreenAtom,
     SpectrumCardAtom,
     StateAtom,
@@ -15,6 +14,7 @@ import { rollDie, selectRandomlyFromList } from 'utils/generic';
 import socket from 'services/socket';
 import produce, { Draft } from 'immer';
 import { useCallback } from 'react';
+import { RosterSizesSelector } from 'atoms/team';
 export const useLobbyHandler = () => {
     const onLobbyEnter = useRecoilCallback(() => () => {}, []);
     const onLobbyExit = useRecoilCallback(
@@ -24,7 +24,6 @@ export const useLobbyHandler = () => {
             set(TurnTrackerAtom, {
                 currentTeam: 0,
                 currentPlayerOnEachTeam: Array(rosterSizes.length).fill(0),
-                numPlayers: rosterSizes,
             });
         },
         []
@@ -79,7 +78,8 @@ export const useRevealHandler = () => {
         []
     );
     const onRevealExit = useRecoilCallback(
-        ({ set }) => async () => {
+        ({ set, snapshot }) => async () => {
+            const rosterSizes = await snapshot.getPromise(RosterSizesSelector);
             set(ClueAtom, '');
             set(
                 TurnTrackerAtom,
@@ -88,15 +88,14 @@ export const useRevealHandler = () => {
                         draft: Draft<{
                             currentTeam: number;
                             currentPlayerOnEachTeam: number[];
-                            numPlayers: number[];
                         }>
                     ) => {
                         draft.currentPlayerOnEachTeam[draft.currentTeam] =
                             (draft.currentPlayerOnEachTeam[draft.currentTeam] +
                                 1) %
-                            draft.numPlayers[draft.currentTeam];
+                            rosterSizes[draft.currentTeam];
                         draft.currentTeam =
-                            (draft.currentTeam + 1) % draft.numPlayers.length;
+                            (draft.currentTeam + 1) % rosterSizes.length;
                         return draft;
                     }
                 )
