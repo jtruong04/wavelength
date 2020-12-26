@@ -18,6 +18,7 @@ import api from 'services/api';
 import './Menus.css';
 import { SocketEvent } from 'enums';
 import socket from 'services/socket';
+import { UserID } from 'types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -72,14 +73,14 @@ const HostMenu = () => {
                 room: newRoom.toUpperCase(),
                 userid,
             },
-            () => {
+            (playersInRoom: UserID[]) => {
                 setUser({
                     name: data.name,
                     avatarid: avatar,
                     id: userid,
                     host: true,
                 });
-                setPlayerList((current) => [...current, userid]);
+                setPlayerList(playersInRoom);
                 setRoom(newRoom.toUpperCase());
             }
         );

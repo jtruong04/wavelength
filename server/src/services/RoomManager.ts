@@ -5,7 +5,7 @@
 import { customAlphabet } from 'nanoid';
 import englishUppercase from 'nanoid-dictionary/uppercase';
 import { IUser, UserID, RoomID } from '../types';
-const nanoid = customAlphabet(englishUppercase, 6);
+const nanoid = customAlphabet(englishUppercase, 4);
 
 class RoomManager {
     rooms: Map<RoomID, Set<UserID>>;

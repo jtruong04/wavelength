@@ -14,13 +14,13 @@ export const StateAtom = atom<StateMachine>({
 export const TurnTrackerAtom = atom<{
     currentTeam: number;
     currentPlayerOnEachTeam: number[];
-    numPlayers: number[];
+    // numPlayers: number[];
 }>({
     key: 'turn tracker',
     default: {
         currentTeam: 0,
         currentPlayerOnEachTeam: [],
-        numPlayers: [],
+        // numPlayers: [],
     },
     effects_UNSTABLE: [
         // EmitEffect(GameEvents.SET_TURN),
@@ -110,13 +110,5 @@ export const UserRoleSelector = selector({
             return Role.CLUE_GIVER;
         }
         return Role.ACTIVE;
-    },
-});
-
-export const RosterSizesSelector = selector({
-    key: 'roster sizes',
-    get: ({ get }) => {
-        const teams = get(TeamOrderingAtom);
-        return teams.map((teamid) => get(RosterAtom(teamid)).length);
     },
 });

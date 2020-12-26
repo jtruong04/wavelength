@@ -6,7 +6,7 @@ import Avatar from 'components/_common/Avatar';
 import Typography from 'components/_common/Typography';
 import Card from 'components/_common/Card';
 import { useRecoilValue } from 'recoil';
-import { MyIDAtom, PlayerAtom } from 'atoms/user';
+import { MyIDAtom, PlayerAtom, PlayerTeamSelector } from 'atoms/user';
 import { UserID } from 'types';
 import { TeamAtom } from 'atoms/team';
 
@@ -87,7 +87,8 @@ export const MessageContainer: React.FC<{ userid: UserID; body: string }> = ({
     body,
 }) => {
     const user = useRecoilValue(PlayerAtom(userid));
-    const { color } = useRecoilValue(TeamAtom(user.team || ''));
+    const team = useRecoilValue(PlayerTeamSelector(userid));
+    const { color } = useRecoilValue(TeamAtom(team || ''));
     const myid = useRecoilValue(MyIDAtom);
     return (
         <Message

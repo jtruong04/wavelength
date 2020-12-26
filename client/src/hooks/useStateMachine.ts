@@ -1,6 +1,5 @@
 import {
     ClueAtom,
-    RosterSizesSelector,
     ScreenAtom,
     SpectrumCardAtom,
     StateAtom,
@@ -15,16 +14,21 @@ import { rollDie, selectRandomlyFromList } from 'utils/generic';
 import socket from 'services/socket';
 import produce, { Draft } from 'immer';
 import { useCallback } from 'react';
+import { RosterSizesSelector, TeamOrderingAtom } from 'atoms/team';
 export const useLobbyHandler = () => {
     const onLobbyEnter = useRecoilCallback(() => () => {}, []);
     const onLobbyExit = useRecoilCallback(
         ({ set, snapshot }) => async () => {
             const rosterSizes = await snapshot.getPromise(RosterSizesSelector);
+            set(TeamOrderingAtom, (current) =>
+                current.filter((_teamid, index) => rosterSizes[index] !== 0)
+            );
             set(ScreenAtom, Screen.CLOSED);
             set(TurnTrackerAtom, {
                 currentTeam: 0,
-                currentPlayerOnEachTeam: Array(rosterSizes.length).fill(0),
-                numPlayers: rosterSizes,
+                currentPlayerOnEachTeam: Array(
+                    rosterSizes.filter((size) => size !== 0).length
+                ).fill(0),
             });
         },
         []
@@ -79,7 +83,8 @@ export const useRevealHandler = () => {
         []
     );
     const onRevealExit = useRecoilCallback(
-        ({ set }) => async () => {
+        ({ set, snapshot }) => async () => {
+            const rosterSizes = await snapshot.getPromise(RosterSizesSelector);
             set(ClueAtom, '');
             set(
                 TurnTrackerAtom,
@@ -88,15 +93,14 @@ export const useRevealHandler = () => {
                         draft: Draft<{
                             currentTeam: number;
                             currentPlayerOnEachTeam: number[];
-                            numPlayers: number[];
                         }>
                     ) => {
                         draft.currentPlayerOnEachTeam[draft.currentTeam] =
                             (draft.currentPlayerOnEachTeam[draft.currentTeam] +
                                 1) %
-                            draft.numPlayers[draft.currentTeam];
+                            rosterSizes[draft.currentTeam];
                         draft.currentTeam =
-                            (draft.currentTeam + 1) % draft.numPlayers.length;
+                            (draft.currentTeam + 1) % rosterSizes.length;
                         return draft;
                     }
                 )

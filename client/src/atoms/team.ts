@@ -1,4 +1,4 @@
-import { atom, atomFamily, selectorFamily } from 'recoil';
+import { atom, atomFamily, selector, selectorFamily } from 'recoil';
 import { ITeam, ITeamWithRoster, TeamID, UserID } from 'types';
 
 import Chance from 'chance';
@@ -64,5 +64,13 @@ export const TeamNameSelector = selectorFamily<string, TeamID>({
             TeamAtom(parameter),
             (prevValue) => ({ ...prevValue, name: newValue } as ITeam)
         );
+    },
+});
+
+export const RosterSizesSelector = selector({
+    key: 'roster sizes',
+    get: ({ get }) => {
+        const teams = get(TeamOrderingAtom);
+        return teams.map((teamid) => get(RosterAtom(teamid)).length);
     },
 });
