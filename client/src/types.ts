@@ -14,7 +14,6 @@ export interface IUser {
     name: string;
     avatarid?: number;
     team?: TeamID;
-    host?: boolean;
 }
 
 export interface ITeam {

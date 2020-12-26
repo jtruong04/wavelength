@@ -1,5 +1,5 @@
 import { TeamOrderingAtom } from 'atoms/team';
-import { UserSelector } from 'atoms/user';
+import { HostSelector } from 'atoms/user';
 import Button from 'components/_common/Button';
 import useStateMachine, { useLobbyHandler } from 'hooks/useStateMachine';
 import React, { useEffect } from 'react';
@@ -14,7 +14,7 @@ const FixedWidthButton = styled(Button)`
 `;
 
 const Lobby: React.FC<LobbyProps> = () => {
-    const { host } = useRecoilValue(UserSelector);
+    const host = useRecoilValue(HostSelector);
     const [onLobbyEnter, onLobbyExit] = useLobbyHandler();
 
     useEffect(() => {

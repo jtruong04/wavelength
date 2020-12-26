@@ -74,7 +74,6 @@ const JoinMenu = () => {
                     name: data.name,
                     avatarid: avatar,
                     id: userid,
-                    host: false,
                 });
                 setPlayerList(playersInRoom);
                 setRoom(data.room.toUpperCase());
