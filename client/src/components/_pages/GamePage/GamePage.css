@@ -39,7 +39,7 @@ h1 {
     max-height: 100px;
     display: flex;
     justify-content: center;
-    /* background-color: aqua; */
+    background-color: aqua;
 }
 
 .Card-container {
@@ -55,7 +55,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: magenta; */
+    background-color: magenta;
 }
 .Dial-container {
     position: relative;
@@ -72,7 +72,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: purple; */
+    background-color: purple;
 }
 
 .Chat-container {
@@ -95,7 +95,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* background-color: greenyellow; */
+    background-color: greenyellow;
 }
 
 .Score-container {
@@ -111,7 +111,7 @@ h1 {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    /* background-color: lightcoral; */
+    background-color: lightcoral;
 }
 
 .Control-container {
