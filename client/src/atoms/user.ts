@@ -19,7 +19,6 @@ export const PlayerAtom = atomFamily<IUser, UserID>({
         id: parameter,
         name: 'No Name',
         avatarid: 99,
-        // team: 'default_team',
         host: false,
     }),
     effects_UNSTABLE: (parameter) => [
