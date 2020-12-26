@@ -1,9 +1,11 @@
 import {
-    ActivePlayerName,
+    ActivePlayer,
+    ActiveTeam,
     SpectrumCardAtom,
     UserRoleSelector,
 } from 'atoms/game';
 import { OptionsAtom } from 'atoms/options';
+import Avatar from 'components/_common/Avatar';
 import Typography from 'components/_common/Typography';
 import { SpectrumCard } from 'components/_game/SpectrumCard/SpectrumCard';
 import { Role } from 'enums';
@@ -18,8 +20,8 @@ const Fork = () => {
     const goToNextState = useStateMachine();
     const userRole = useRecoilValue(UserRoleSelector);
     const options = useRecoilValue(OptionsAtom);
-
-    const activePlayerName = useRecoilValue(ActivePlayerName);
+    const activeTeam = useRecoilValue(ActiveTeam);
+    const activePlayer = useRecoilValue(ActivePlayer);
     const [cards] = useState<ICard[]>(
         drawMultipleCards(options.numCards, {
             level: options.cardType,
@@ -61,14 +63,20 @@ const Fork = () => {
 
     if (userRole === Role.CLUE_GIVER) {
         return (
-            <div>
-                <Typography> Please select a card. </Typography>
+            <>
+                <Typography size='x-large'> Please select a card. </Typography>
                 {renderCards()}
-            </div>
+            </>
         );
         // return <Button onClick={handleClick}>Ready</Button>;
     }
-    return <Typography>Current turn: {activePlayerName}</Typography>;
+    return (
+        <>
+            <Typography size='large'>Current turn</Typography>
+            <Avatar {...activePlayer} color={activeTeam.color} large />
+            <Typography size='xx-large'>{activePlayer.name}</Typography>
+        </>
+    );
 };
 
 export default Fork;

@@ -7,7 +7,7 @@ import Typography from 'components/_common/Typography';
 const CardContainer = styled.div`
     position: relative;
     width: 100%;
-    /* height: 100%; */
+    height: 100px;
     display: flex;
     flex-basis: auto;
     justify-content: center;

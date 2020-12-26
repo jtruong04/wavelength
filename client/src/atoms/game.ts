@@ -3,7 +3,7 @@ import { GameEvents, OverUnder, Role, Screen, StateMachine } from 'enums';
 
 import { EmitEffect } from './atomEffects';
 import { MyIDAtom, PlayerAtom } from './user';
-import { RosterAtom, TeamOrderingAtom } from './team';
+import { RosterAtom, TeamAtom, TeamOrderingAtom } from './team';
 import { ICard } from 'types';
 
 // Atoms
@@ -125,7 +125,7 @@ export const UserRoleSelector = selector({
     },
 });
 
-export const ActivePlayerName = selector({
+export const ActivePlayer = selector({
     key: 'active player',
     get: ({ get }) => {
         const teams = get(TeamOrderingAtom);
@@ -136,6 +136,21 @@ export const ActivePlayerName = selector({
                 turnTracker.currentPlayerOnEachTeam[turnTracker.currentTeam]
             ];
         const user = get(PlayerAtom(activeid));
-        return user.name;
+        return user;
+    },
+});
+
+export const ActiveTeam = selector({
+    key: 'active team',
+    get: ({ get }) => {
+        const teams = get(TeamOrderingAtom);
+        const turnTracker = get(TurnTrackerAtom);
+        const activeTeam = get(TeamAtom(teams[turnTracker.currentTeam]));
+        // const activeid =
+        //     activeRoster[
+        //         turnTracker.currentPlayerOnEachTeam[turnTracker.currentTeam]
+        //     ];
+        // const user = get(PlayerAtom(activeid));
+        return activeTeam;
     },
 });

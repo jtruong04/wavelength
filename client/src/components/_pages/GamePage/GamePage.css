@@ -36,6 +36,7 @@ h1 {
     position: relative;
     grid-area: Card;
     z-index: 2;
+    max-height: 100px;
     display: flex;
     justify-content: center;
     /* background-color: aqua; */
@@ -43,7 +44,8 @@ h1 {
 
 .Card-container {
     position: inherit;
-    width: 50%;
+    width: 65%;
+    /* background-color: #00000080; */
 }
 
 .Dial {
@@ -60,6 +62,7 @@ h1 {
     width: 75%;
     max-width: 600px;
     padding: 5% 20%;
+    /* background-color: #00000080; */
 }
 
 .Chat {
@@ -73,8 +76,8 @@ h1 {
 }
 
 .Chat-container {
-    /* min-height: 200px; */
-    height: 500px;
+    /* min-height: 300px; */
+    height: 300px;
     width: 90%;
     padding: 50px 5%;
     /* height: 600px; */
@@ -82,6 +85,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: center;
+    /* background-color: #00000080; */
 }
 
 .Score {
@@ -112,11 +116,10 @@ h1 {
 
 .Control-container {
     position: inherit;
+    display: flex;
+    width: 70%;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* background-color: #00000080; */
 }
-/* 
-.grid-cell {
-    padding: '5%';
-    margin: 'auto';
-    max-width: '600px';
-    width: '80%';
-} */
