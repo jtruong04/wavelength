@@ -6,9 +6,10 @@ import '../Dial.css';
 import { Point } from 'types';
 import { computeAngle } from 'utils/generic';
 import useRotate from 'hooks/useRotate';
-import { ScreenAtom, ScreenLockSelector } from 'atoms/game';
+import { ReadyAtom, ScreenAtom, ScreenLockSelector } from 'atoms/game';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { Screen as ScreenEnum } from 'enums';
+import useStateMachine from 'hooks/useStateMachine';
 
 export interface ScreenProps {
     angle: number;
@@ -68,6 +69,8 @@ export const Screen: React.FC<ScreenProps> = ({ angle, onDrag }) => {
 export const ScreenContainer = () => {
     const [angle, setAngle] = useRecoilState(ScreenAtom);
     const lock = useRecoilValue(ScreenLockSelector);
+    const ready = useRecoilValue(ReadyAtom);
+    const goToNextState = useStateMachine();
     const onClick = (
         releasePoint: Point,
         _initialPoint: Point,
@@ -79,6 +82,9 @@ export const ScreenContainer = () => {
                 ? ScreenEnum.OPEN
                 : ScreenEnum.CLOSED
         );
+        if (ready && (newAngle < 90 || newAngle > 270)) {
+            goToNextState();
+        }
     };
 
     const onRelease = (
@@ -92,6 +98,9 @@ export const ScreenContainer = () => {
                 ? ScreenEnum.OPEN
                 : ScreenEnum.CLOSED
         );
+        if (ready && (newAngle > 90 || newAngle < -90)) {
+            goToNextState();
+        }
     };
 
     const handleDrag = useRotate(setAngle, onRelease, onClick);

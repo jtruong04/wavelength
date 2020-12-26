@@ -14,7 +14,6 @@ export interface IUser {
     name: string;
     avatarid?: number;
     team?: TeamID;
-    host?: boolean;
 }
 
 export interface ITeam {
@@ -28,4 +27,9 @@ export type ITeamWithRoster = ITeam & { roster: UserID[] };
 export interface IMessage {
     userid: UserID;
     body: string;
+}
+
+export interface ICard {
+    text: [string, string];
+    color: [string, string];
 }

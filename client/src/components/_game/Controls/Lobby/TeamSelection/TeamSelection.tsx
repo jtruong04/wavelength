@@ -1,5 +1,5 @@
 import { RosterAtom, TeamAtom, TeamOrderingAtom } from 'atoms/team';
-import { IsCurrentOnTeamSelector, MyIDAtom, UserSelector } from 'atoms/user';
+import { IsCurrentOnTeamSelector, MyIDAtom, HostSelector } from 'atoms/user';
 import React, { useEffect } from 'react';
 import {
     DragDropContext,
@@ -24,7 +24,7 @@ export interface TeamSelectionProps {}
 
 const TeamSelection = () => {
     const teamOrdering = useRecoilValue(TeamOrderingAtom);
-    const { host } = useRecoilValue(UserSelector);
+    const host = useRecoilValue(HostSelector);
 
     // Create team if none
     const createTeam = useRecoilCallback(
@@ -47,7 +47,7 @@ const TeamSelection = () => {
         ({ set, snapshot }) => async () => {
             const teamOrdering = await snapshot.getPromise(TeamOrderingAtom);
             const myid = await snapshot.getPromise(MyIDAtom);
-            const { host } = await snapshot.getPromise(UserSelector);
+            const host = await snapshot.getPromise(HostSelector);
             set(RosterAtom(teamOrdering[0]), (currVal) => {
                 if (currVal.includes(myid) || (currVal.length === 0 && !host)) {
                     return currVal;

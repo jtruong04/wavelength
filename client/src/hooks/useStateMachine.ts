@@ -1,7 +1,9 @@
 import {
     ClueAtom,
+    KnobAtom,
+    OverUnderAtom,
+    ReadyAtom,
     ScreenAtom,
-    SpectrumCardAtom,
     StateAtom,
     TargetAtom,
     TurnTrackerAtom,
@@ -9,8 +11,7 @@ import {
 } from 'atoms/game';
 import { GameEvents, Role, Screen, StateMachine } from 'enums';
 import { useRecoilCallback } from 'recoil';
-import { basic, advanced, colors } from 'assets/cards.json';
-import { rollDie, selectRandomlyFromList } from 'utils/generic';
+import { rollDie } from 'utils/generic';
 import socket from 'services/socket';
 import produce, { Draft } from 'immer';
 import { useCallback } from 'react';
@@ -37,7 +38,13 @@ export const useLobbyHandler = () => {
 };
 
 export const useForkHandler = () => {
-    const onForkEnter = useRecoilCallback(() => () => {}, []);
+    const onForkEnter = useRecoilCallback(
+        ({ set }) => () => {
+            set(ScreenAtom, Screen.CLOSED);
+            set(KnobAtom, 0);
+        },
+        []
+    );
     const onForkExit = useRecoilCallback(() => () => {}, []);
     return [onForkEnter, onForkExit];
 };
@@ -47,13 +54,6 @@ export const useClueHandler = () => {
         ({ set }) => () => {
             set(ScreenAtom, Screen.OPEN);
             set(TargetAtom, Math.random() * 180 + rollDie(10) * 360);
-            set(SpectrumCardAtom, {
-                text: selectRandomlyFromList([...advanced, ...basic]).value as [
-                    string,
-                    string
-                ],
-                color: selectRandomlyFromList(colors).value as [string, string],
-            });
         },
         []
     );
@@ -78,6 +78,7 @@ export const useRevealHandler = () => {
     const onRevealEnter = useRecoilCallback(
         ({ set }) => () => {
             set(ScreenAtom, Screen.OPEN);
+            set(ReadyAtom, false);
             // TODO: Compute and modify scores
         },
         []
@@ -86,6 +87,7 @@ export const useRevealHandler = () => {
         ({ set, snapshot }) => async () => {
             const rosterSizes = await snapshot.getPromise(RosterSizesSelector);
             set(ClueAtom, '');
+            set(OverUnderAtom, null);
             set(
                 TurnTrackerAtom,
                 produce(

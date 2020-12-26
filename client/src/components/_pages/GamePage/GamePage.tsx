@@ -20,6 +20,7 @@ import SpectrumCard from 'components/_game/SpectrumCard';
 
 const GamePage = () => {
     const gameState = useRecoilValue(StateAtom);
+
     const renderState = (gameState: StateMachine) => {
         switch (gameState) {
             case StateMachine.LOBBY:
@@ -39,6 +40,25 @@ const GamePage = () => {
         }
     };
 
+    const renderCard = (gameState: StateMachine) => {
+        switch (gameState) {
+            case StateMachine.LOBBY:
+                return null;
+            case StateMachine.FORK:
+                return null;
+            case StateMachine.CLUE:
+                return <SpectrumCard />;
+            case StateMachine.ACTIVE:
+                return <SpectrumCard />;
+            case StateMachine.STANDBY:
+                return <SpectrumCard />;
+            case StateMachine.REVEAL:
+                return <SpectrumCard />;
+            default:
+                return null;
+        }
+    };
+
     return (
         <>
             <div className='grid-container'>
@@ -52,7 +72,7 @@ const GamePage = () => {
                 </div>
                 <div className='Card'>
                     <div className='Card-container'>
-                        <SpectrumCard />
+                        {renderCard(gameState)}
                     </div>
                 </div>
                 <div className='Dial'>

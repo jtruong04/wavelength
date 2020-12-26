@@ -1,5 +1,7 @@
-import { isBetween } from './generic';
-
+import { isBetween, selectRandomlyFromList } from './generic';
+import { basic, advanced, colors } from 'assets/cards.json';
+import { ICard } from 'types';
+import { CardType } from 'enums';
 // The active team tries to hit a bullseye
 export function computeScoreForActiveTeam(
     guessedValue: number,
@@ -36,4 +38,33 @@ export function computeScoreForStandbyTeam(
     // Otherwise, they get a point if the true value is between
     // their guess and the active team's guess.
     return isBetween(targetValue, overUnderValue, guessedValue) ? 1 : 0;
+}
+
+export function drawCard(options?: { level?: CardType }): ICard {
+    let newCard: [string, string];
+    switch (options?.level) {
+        case CardType.BASIC:
+            newCard = selectRandomlyFromList(basic).value as [string, string];
+            break;
+        case CardType.ADVANCED:
+            newCard = selectRandomlyFromList(advanced).value as [
+                string,
+                string
+            ];
+            break;
+        default:
+            newCard = selectRandomlyFromList([...basic, ...advanced]).value as [
+                string,
+                string
+            ];
+            break;
+    }
+    return {
+        text: newCard,
+        color: selectRandomlyFromList(colors).value as [string, string],
+    };
+}
+
+export function drawMultipleCards(num: number, options?: { level?: CardType }) {
+    return Array.from({ length: num }, () => drawCard(options));
 }

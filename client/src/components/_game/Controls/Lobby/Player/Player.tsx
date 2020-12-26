@@ -8,6 +8,7 @@ import { UserID } from 'types';
 import { Draggable } from 'react-beautiful-dnd';
 
 const DraggableContainer = styled.div``;
+
 const Cell = styled.div`
     display: flex;
     padding: 2%;

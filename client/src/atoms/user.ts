@@ -19,7 +19,6 @@ export const PlayerAtom = atomFamily<IUser, UserID>({
         id: parameter,
         name: 'No Name',
         avatarid: 99,
-        host: false,
     }),
     effects_UNSTABLE: (parameter) => [
         EmitEffect(`${GameEvents.SET_PLAYER}_${parameter}`),
@@ -80,5 +79,14 @@ export const UserSelector = selector<IUser>({
     set: ({ get, set }, newValue) => {
         const userid = get(MyIDAtom);
         set(PlayerAtom(userid), newValue);
+    },
+});
+
+export const HostSelector = selector({
+    key: 'host',
+    get: ({ get }) => {
+        const myid = get(MyIDAtom);
+        const playerlist = get(PlayerListAtom);
+        return myid === playerlist[0];
     },
 });

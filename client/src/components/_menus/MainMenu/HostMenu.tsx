@@ -78,14 +78,11 @@ const HostMenu = () => {
                     name: data.name,
                     avatarid: avatar,
                     id: userid,
-                    host: true,
                 });
                 setPlayerList(playersInRoom);
                 setRoom(newRoom.toUpperCase());
             }
         );
-        // setUser({ name: data.name, avatarid: avatar, id: userid, host: true });
-        // setRoom(newRoom);
     };
     return (
         <form className={classes.form} noValidate>

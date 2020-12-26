@@ -4,10 +4,8 @@ export enum SocketEvent {
     ESTABLISH_CONNECTION = 'est connection',
     JOIN_ROOM = 'join room',
     REQUEST = 'REQUEST',
-    PLAYER_LEAVE = "PLAYER_LEAVE"
+    PLAYER_LEAVE = 'PLAYER_LEAVE',
 }
-
-
 
 
 export enum GameEvents {
@@ -24,8 +22,9 @@ export enum GameEvents {
     SET_PLAYER = 'SET_PLAYER',
     SET_PLAYER_LIST = 'SET_PLAYER_LIST',
     NEXT = 'NEXT',
-    SET_OVERUNDER = "SET_OVERUNDER",
-    SET_CONTINUE = "SET_CONTINUE"
+    SET_OVERUNDER = 'SET_OVERUNDER',
+    SET_CONTINUE = 'SET_CONTINUE',
+    SET_READY = "SET_READY"
 }
 
 export enum ChatEvent {
@@ -55,4 +54,10 @@ export enum Role {
     STANDBY = 'STANDBY',
     CLUE_GIVER = 'CLUE_GIVER',
     ACTIVE = 'ACTIVE',
+}
+
+export enum CardType {
+    BASIC = 'basic',
+    ADVANCED = 'advanced',
+    BOTH = 'both',
 }
