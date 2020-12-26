@@ -29,3 +29,8 @@ export interface IMessage {
     userid: UserID;
     body: string;
 }
+
+export interface ICard {
+    text: [string, string];
+    color: [string, string];
+}

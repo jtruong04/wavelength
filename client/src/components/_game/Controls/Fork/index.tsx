@@ -1,14 +1,31 @@
-import { UserRoleSelector } from 'atoms/game';
-import Button from 'components/_common/Button';
+import {
+    ActivePlayerName,
+    SpectrumCardAtom,
+    UserRoleSelector,
+} from 'atoms/game';
+import { OptionsAtom } from 'atoms/options';
+import Typography from 'components/_common/Typography';
+import { SpectrumCard } from 'components/_game/SpectrumCard/SpectrumCard';
 import { Role } from 'enums';
 import useStateMachine, { useForkHandler } from 'hooks/useStateMachine';
-import React, { useEffect } from 'react';
-import { useRecoilValue } from 'recoil';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { ICard } from 'types';
+import { drawMultipleCards } from 'utils/game';
 
 const Fork = () => {
     const [onForkEnter, onForkExit] = useForkHandler();
     const goToNextState = useStateMachine();
     const userRole = useRecoilValue(UserRoleSelector);
+    const options = useRecoilValue(OptionsAtom);
+
+    const activePlayerName = useRecoilValue(ActivePlayerName);
+    const [cards] = useState<ICard[]>(
+        drawMultipleCards(options.numCards, {
+            level: options.cardType,
+        })
+    );
+    const setSelectedCard = useSetRecoilState(SpectrumCardAtom);
     useEffect(() => {
         onForkEnter();
         return () => {
@@ -16,14 +33,42 @@ const Fork = () => {
         };
     }, [onForkEnter, onForkExit]);
 
-    const handleClick = () => {
+    const handleClick = (index: number) => {
+        setSelectedCard(cards[index]);
         goToNextState();
     };
 
+    const renderCards = () =>
+        cards.map((card, index) => (
+            <div
+                key={index}
+                onClick={() => {
+                    handleClick(index);
+                }}
+                style={{
+                    marginBottom: '20px',
+                    width: '100%',
+                }}
+            >
+                <SpectrumCard
+                    leftText={card.text[0]}
+                    rightText={card.text[1]}
+                    leftColor={card.color[0]}
+                    rightColor={card.color[1]}
+                />
+            </div>
+        ));
+
     if (userRole === Role.CLUE_GIVER) {
-        return <Button onClick={handleClick}>Ready</Button>;
+        return (
+            <div>
+                <Typography> Please select a card. </Typography>
+                {renderCards()}
+            </div>
+        );
+        // return <Button onClick={handleClick}>Ready</Button>;
     }
-    return null;
+    return <Typography>Current turn: {activePlayerName}</Typography>;
 };
 
 export default Fork;

@@ -2,8 +2,9 @@ import { atom, selector } from 'recoil';
 import { GameEvents, OverUnder, Role, Screen, StateMachine } from 'enums';
 
 import { EmitEffect } from './atomEffects';
-import { MyIDAtom } from './user';
+import { MyIDAtom, PlayerAtom } from './user';
 import { RosterAtom, TeamOrderingAtom } from './team';
+import { ICard } from 'types';
 
 // Atoms
 export const StateAtom = atom<StateMachine>({
@@ -49,10 +50,7 @@ export const ScreenAtom = atom<number | Screen>({
         // LoggerEffect('Screen'),
     ],
 });
-export const SpectrumCardAtom = atom<{
-    text: [string, string];
-    color: [string, string];
-}>({
+export const SpectrumCardAtom = atom<ICard>({
     key: 'spectrum card',
     default: { text: ['Left', 'Right'], color: ['red', 'blue'] },
     effects_UNSTABLE: [
@@ -70,17 +68,26 @@ export const OverUnderAtom = atom<OverUnder | null>({
     default: null,
     effects_UNSTABLE: [EmitEffect(GameEvents.SET_OVERUNDER)],
 });
+export const ReadyAtom = atom<boolean>({
+    key: 'ready state',
+    default: false,
+    effects_UNSTABLE: [EmitEffect(GameEvents.SET_READY)],
+});
 
 // Selectors
 export const KnobLockSelector = selector({
     key: 'knob lock',
     get: ({ get }) => {
         const state = get(StateAtom);
-        return [
-            StateMachine.CLUE,
-            StateMachine.STANDBY,
-            StateMachine.REVEAL,
-        ].includes(state);
+        const ready = get(ReadyAtom);
+
+        return (
+            [
+                StateMachine.CLUE,
+                StateMachine.STANDBY,
+                StateMachine.REVEAL,
+            ].includes(state) || ready
+        );
     },
 });
 
@@ -88,7 +95,12 @@ export const ScreenLockSelector = selector({
     key: 'screen lock',
     get: ({ get }) => {
         const state = get(StateAtom);
-        return [StateMachine.ACTIVE, StateMachine.STANDBY].includes(state);
+        const clue = get(ClueAtom);
+        const ready = get(ReadyAtom);
+        return (
+            [StateMachine.ACTIVE, StateMachine.STANDBY].includes(state) ||
+            (state === StateMachine.CLUE && clue && !ready)
+        );
     },
 });
 
@@ -110,5 +122,20 @@ export const UserRoleSelector = selector({
             return Role.CLUE_GIVER;
         }
         return Role.ACTIVE;
+    },
+});
+
+export const ActivePlayerName = selector({
+    key: 'active player',
+    get: ({ get }) => {
+        const teams = get(TeamOrderingAtom);
+        const turnTracker = get(TurnTrackerAtom);
+        const activeRoster = get(RosterAtom(teams[turnTracker.currentTeam]));
+        const activeid =
+            activeRoster[
+                turnTracker.currentPlayerOnEachTeam[turnTracker.currentTeam]
+            ];
+        const user = get(PlayerAtom(activeid));
+        return user.name;
     },
 });
