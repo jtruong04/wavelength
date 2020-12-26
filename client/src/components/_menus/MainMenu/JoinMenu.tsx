@@ -16,6 +16,7 @@ import Button from 'components/_common/Button';
 import './Menus.css';
 import socket from 'services/socket';
 import { SocketEvent } from 'enums';
+import { UserID } from 'types';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -62,30 +63,20 @@ const JoinMenu = () => {
 
     const onSubmit = (data: { room: string; name: string }) => {
         if (data.name === '' || data.room === '') return;
-        // socket.emit(SocketEvent.JOIN_ROOM, {
-        //     room: data.room.toUpperCase(),
-        //     userid: userid,
-        //     user: {
-        //         name: data.name,
-        //         avatarid: avatar,
-        //         id: userid,
-        //         host: false,
-        //     },
-        // });
         socket.emit(
             SocketEvent.JOIN_ROOM,
             {
                 room: data.room.toUpperCase(),
                 userid,
             },
-            () => {
+            (playersInRoom: UserID[]) => {
                 setUser({
                     name: data.name,
                     avatarid: avatar,
                     id: userid,
                     host: false,
                 });
-                setPlayerList((current) => [...current, userid]);
+                setPlayerList(playersInRoom);
                 setRoom(data.room.toUpperCase());
             }
         );
