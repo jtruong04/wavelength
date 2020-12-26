@@ -14,16 +14,21 @@ import { rollDie, selectRandomlyFromList } from 'utils/generic';
 import socket from 'services/socket';
 import produce, { Draft } from 'immer';
 import { useCallback } from 'react';
-import { RosterSizesSelector } from 'atoms/team';
+import { RosterSizesSelector, TeamOrderingAtom } from 'atoms/team';
 export const useLobbyHandler = () => {
     const onLobbyEnter = useRecoilCallback(() => () => {}, []);
     const onLobbyExit = useRecoilCallback(
         ({ set, snapshot }) => async () => {
             const rosterSizes = await snapshot.getPromise(RosterSizesSelector);
+            set(TeamOrderingAtom, (current) =>
+                current.filter((_teamid, index) => rosterSizes[index] !== 0)
+            );
             set(ScreenAtom, Screen.CLOSED);
             set(TurnTrackerAtom, {
                 currentTeam: 0,
-                currentPlayerOnEachTeam: Array(rosterSizes.length).fill(0),
+                currentPlayerOnEachTeam: Array(
+                    rosterSizes.filter((size) => size !== 0).length
+                ).fill(0),
             });
         },
         []
